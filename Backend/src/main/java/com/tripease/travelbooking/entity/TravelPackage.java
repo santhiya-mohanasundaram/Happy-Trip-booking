@@ -244,3 +244,4 @@ public class TravelPackage {
         this.itineraryJson = itineraryJson;
     }
 }
+

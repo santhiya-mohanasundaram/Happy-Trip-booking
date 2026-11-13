@@ -11,3 +11,4 @@ public interface HotelRepository extends JpaRepository<Hotel, Long> {
     List<Hotel> findByDestinationNameContainingIgnoreCaseOrCityContainingIgnoreCase(String dest, String city);
     List<Hotel> findByAvailableTrue();
 }
+

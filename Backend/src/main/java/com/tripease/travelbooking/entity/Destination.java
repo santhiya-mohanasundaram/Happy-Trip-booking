@@ -156,3 +156,4 @@ public class Destination {
         this.avgTemp = avgTemp;
     }
 }
+

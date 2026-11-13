@@ -10,3 +10,4 @@ public class TravelBookingApplication {
         SpringApplication.run(TravelBookingApplication.class, args);
     }
 }
+

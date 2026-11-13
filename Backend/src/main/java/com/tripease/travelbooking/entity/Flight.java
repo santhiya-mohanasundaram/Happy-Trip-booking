@@ -130,3 +130,4 @@ public class Flight {
         this.availableSeats = availableSeats;
     }
 }
+

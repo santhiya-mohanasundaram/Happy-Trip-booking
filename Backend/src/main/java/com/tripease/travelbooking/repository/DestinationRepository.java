@@ -11,3 +11,4 @@ public interface DestinationRepository extends JpaRepository<Destination, String
     List<Destination> findByNameContainingIgnoreCaseOrCountryContainingIgnoreCase(String name, String country);
     List<Destination> findByRegionIgnoreCase(String region);
 }
+

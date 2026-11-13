@@ -129,3 +129,4 @@ public class Hotel {
         this.available = available;
     }
 }
+
