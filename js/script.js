@@ -4,6 +4,9 @@
  * Vanilla JS only (No external frontend frameworks)
  */
 
+// --- BACKEND API BASE URL ---
+const API_BASE_URL = "http://localhost:8080/api";
+
 // --- GLOBAL SAMPLE DATA ---
 const TRIPEASE_DATA = {
   destinations: [
@@ -680,8 +683,8 @@ const TRIPEASE_DATA = {
   ]
 };
 
-// --- INITIALIZE LOCAL STORAGE ---
-function initStorage() {
+// --- INITIALIZE LOCAL STORAGE & BACKEND SYNC ---
+async function initStorage() {
   if (!localStorage.getItem("tripEaseBookings")) {
     localStorage.setItem("tripEaseBookings", JSON.stringify(TRIPEASE_DATA.initialBookings));
   }
@@ -691,6 +694,39 @@ function initStorage() {
   if (!localStorage.getItem("tripEasePackages")) {
     localStorage.setItem("tripEasePackages", JSON.stringify(TRIPEASE_DATA.packages));
   }
+
+  // Asynchronous sync from Spring Boot REST API
+  try {
+    const pkgResp = await fetch(`${API_BASE_URL}/packages`);
+    if (pkgResp.ok) {
+      const pkgData = await pkgResp.json();
+      if (pkgData.data && pkgData.data.length > 0) {
+        localStorage.setItem("tripEasePackages", JSON.stringify(pkgData.data));
+      }
+    }
+  } catch (err) {
+    // Backend offline, fallback to local cache
+  }
+
+  try {
+    const destResp = await fetch(`${API_BASE_URL}/destinations`);
+    if (destResp.ok) {
+      const destData = await destResp.json();
+      if (destData.data && destData.data.length > 0) {
+        TRIPEASE_DATA.destinations = destData.data;
+      }
+    }
+  } catch (err) {}
+
+  try {
+    const bookResp = await fetch(`${API_BASE_URL}/bookings`);
+    if (bookResp.ok) {
+      const bookData = await bookResp.json();
+      if (bookData.data && bookData.data.length > 0) {
+        localStorage.setItem("tripEaseBookings", JSON.stringify(bookData.data));
+      }
+    }
+  } catch (err) {}
 }
 
 // Get stored packages
@@ -1374,7 +1410,7 @@ function setupBookingPage() {
   // Handle Booking Submission
   const bookingForm = document.getElementById("bookingMasterForm");
   if (bookingForm) {
-    bookingForm.addEventListener("submit", (e) => {
+    bookingForm.addEventListener("submit", async (e) => {
       e.preventDefault();
 
       const totals = updateBookingTotals();
@@ -1392,12 +1428,12 @@ function setupBookingPage() {
       const activeTab = document.querySelector(".payment-tab.active");
       const paymentMethod = activeTab ? activeTab.innerText.trim() : "UPI / Net Banking";
 
-      // Generate Booking ID
-      const bookingId = "TE-" + new Date().getFullYear() + "-" + Math.floor(1000 + Math.random() * 9000);
+      // Fallback ID if offline
+      let bookingId = "TE-" + new Date().getFullYear() + "-" + Math.floor(1000 + Math.random() * 9000);
 
-      const newBooking = {
-        id: bookingId,
+      const bookingPayload = {
         packageId: pkg.id,
+        bookingType: "PACKAGE",
         packageTitle: pkg.title,
         destination: pkg.destination,
         image: pkg.image,
@@ -1407,17 +1443,43 @@ function setupBookingPage() {
         guestName: leadName,
         guestEmail: leadEmail,
         guestPhone: leadPhone,
+        departureCity: document.getElementById("departureCity") ? document.getElementById("departureCity").value.trim() : "",
+        specialRequests: document.getElementById("specialRequests") ? document.getElementById("specialRequests").value.trim() : "",
         totalAmount: totals.grandTotal,
-        status: "Upcoming",
-        paymentStatus: "Paid",
-        paymentMethod: paymentMethod,
-        createdAt: new Date().toISOString().split("T")[0]
+        paymentMethod: paymentMethod
       };
 
-      // Save to localStorage
-      const existingBookings = getBookings();
-      existingBookings.unshift(newBooking);
-      localStorage.setItem("tripEaseBookings", JSON.stringify(existingBookings));
+      // Call Spring Boot REST API
+      try {
+        const resp = await fetch(`${API_BASE_URL}/bookings`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(bookingPayload)
+        });
+        if (resp.ok) {
+          const result = await resp.json();
+          if (result.success && result.data) {
+            bookingId = result.data.id;
+            const existingBookings = getBookings();
+            existingBookings.unshift(result.data);
+            localStorage.setItem("tripEaseBookings", JSON.stringify(existingBookings));
+          }
+        } else {
+          throw new Error("API call failed");
+        }
+      } catch (err) {
+        // Fallback to local storage if backend temporarily unavailable
+        const newBooking = {
+          ...bookingPayload,
+          id: bookingId,
+          status: "Upcoming",
+          paymentStatus: "Paid",
+          createdAt: new Date().toISOString().split("T")[0]
+        };
+        const existingBookings = getBookings();
+        existingBookings.unshift(newBooking);
+        localStorage.setItem("tripEaseBookings", JSON.stringify(existingBookings));
+      }
 
       // Show Confirmation Modal
       const modal = document.getElementById("bookingSuccessModal");
@@ -1547,8 +1609,15 @@ function setupMyTripsPage() {
   renderTrips("All");
 }
 
-function cancelTripBooking(bookingId) {
+async function cancelTripBooking(bookingId) {
   if (confirm(`Are you sure you want to cancel booking ${bookingId}? Free cancellation refund policy applies.`)) {
+    // Notify Spring Boot Backend
+    try {
+      await fetch(`${API_BASE_URL}/bookings/${encodeURIComponent(bookingId)}/cancel`, {
+        method: "POST"
+      });
+    } catch (err) {}
+
     const bookings = getBookings();
     const target = bookings.find(b => b.id === bookingId);
     if (target) {
@@ -1603,7 +1672,7 @@ function setupAuthPages() {
   // Login Form Submission
   const loginForm = document.getElementById("loginForm");
   if (loginForm) {
-    loginForm.addEventListener("submit", (e) => {
+    loginForm.addEventListener("submit", async (e) => {
       e.preventDefault();
       const email = document.getElementById("loginEmail").value.trim();
       const pass = document.getElementById("loginPassword").value.trim();
@@ -1613,28 +1682,49 @@ function setupAuthPages() {
         return;
       }
 
-      // Mock user login
-      const namePart = email.split("@")[0];
-      const displayName = namePart.charAt(0).toUpperCase() + namePart.slice(1);
-      const user = {
-        name: displayName,
-        email: email,
-        phone: "+91 98765 43210"
-      };
-
-      localStorage.setItem("tripEaseUser", JSON.stringify(user));
-      showToast(`Welcome back, ${displayName}!`, "success");
-
-      setTimeout(() => {
-        window.location.href = "index.html";
-      }, 1000);
+      try {
+        const resp = await fetch(`${API_BASE_URL}/auth/login`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email: email, password: pass })
+        });
+        const result = await resp.json();
+        if (resp.ok && result.success && result.data) {
+          const user = {
+            id: result.data.id,
+            name: result.data.name,
+            email: result.data.email,
+            phone: result.data.phone || "+91 98765 43210",
+            role: result.data.role
+          };
+          localStorage.setItem("tripEaseUser", JSON.stringify(user));
+          showToast(`Welcome back, ${result.data.name}!`, "success");
+          setTimeout(() => window.location.href = "index.html", 1000);
+          return;
+        } else {
+          showToast(result.message || "Invalid credentials", "error");
+          return;
+        }
+      } catch (err) {
+        // Fallback for offline testing
+        const namePart = email.split("@")[0];
+        const displayName = namePart.charAt(0).toUpperCase() + namePart.slice(1);
+        const user = {
+          name: displayName,
+          email: email,
+          phone: "+91 98765 43210"
+        };
+        localStorage.setItem("tripEaseUser", JSON.stringify(user));
+        showToast(`Welcome back, ${displayName}!`, "success");
+        setTimeout(() => window.location.href = "index.html", 1000);
+      }
     });
   }
 
   // Register Form Submission
   const registerForm = document.getElementById("registerForm");
   if (registerForm) {
-    registerForm.addEventListener("submit", (e) => {
+    registerForm.addEventListener("submit", async (e) => {
       e.preventDefault();
       const name = document.getElementById("regName").value.trim();
       const email = document.getElementById("regEmail").value.trim();
@@ -1658,13 +1748,35 @@ function setupAuthPages() {
         return;
       }
 
-      const newUser = { name, email, phone };
-      localStorage.setItem("tripEaseUser", JSON.stringify(newUser));
-      showToast(`Account created successfully! Welcome to TripEase, ${name}.`, "success");
-
-      setTimeout(() => {
-        window.location.href = "index.html";
-      }, 1000);
+      try {
+        const resp = await fetch(`${API_BASE_URL}/auth/register`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name: name, email: email, phone: phone, password: pass })
+        });
+        const result = await resp.json();
+        if (resp.ok && result.success && result.data) {
+          const newUser = {
+            id: result.data.id,
+            name: result.data.name,
+            email: result.data.email,
+            phone: result.data.phone,
+            role: result.data.role
+          };
+          localStorage.setItem("tripEaseUser", JSON.stringify(newUser));
+          showToast(`Account created successfully! Welcome to TripEase, ${name}.`, "success");
+          setTimeout(() => window.location.href = "index.html", 1000);
+          return;
+        } else {
+          showToast(result.message || "Registration failed", "error");
+          return;
+        }
+      } catch (err) {
+        const newUser = { name, email, phone };
+        localStorage.setItem("tripEaseUser", JSON.stringify(newUser));
+        showToast(`Account created successfully! Welcome to TripEase, ${name}.`, "success");
+        setTimeout(() => window.location.href = "index.html", 1000);
+      }
     });
   }
 }
@@ -1746,7 +1858,7 @@ function setupAdminDashboard() {
   // Add Package Form inside Admin Modal
   const addPkgForm = document.getElementById("addNewPackageForm");
   if (addPkgForm) {
-    addPkgForm.addEventListener("submit", (e) => {
+    addPkgForm.addEventListener("submit", async (e) => {
       e.preventDefault();
       const title = document.getElementById("pkgNewTitle").value.trim();
       const dest = document.getElementById("pkgNewDestination").value.trim();
@@ -1776,16 +1888,24 @@ function setupAdminDashboard() {
         badge: "New Tour",
         featured: false,
         image: img,
-        gallery: [img],
+        galleryJson: JSON.stringify([img]),
         overview: `Discover the breathtaking sights and unique experiences of ${dest} with TripEase exclusive tour.`,
-        highlights: ["Expert Local Guide", "All Transfers in private AC vehicle", "Selected 4-star stays"],
-        inclusions: ["Accommodations", "Daily Breakfast", "Sightseeing"],
-        exclusions: ["Airfare", "Personal expenses"],
-        itinerary: [
+        highlightsJson: JSON.stringify(["Expert Local Guide", "All Transfers in private AC vehicle", "Selected 4-star stays"]),
+        inclusionsJson: JSON.stringify(["Accommodations", "Daily Breakfast", "Sightseeing"]),
+        exclusionsJson: JSON.stringify(["Airfare", "Personal expenses"]),
+        itineraryJson: JSON.stringify([
           { day: 1, title: "Arrival & Welcome", description: "Arrive at destination and transfer to hotel." },
           { day: 2, title: "City Sightseeing", description: "Full day sightseeing tour." }
-        ]
+        ])
       };
+
+      try {
+        await fetch(`${API_BASE_URL}/packages`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(newPkg)
+        });
+      } catch (err) {}
 
       const pkgs = getPackages();
       pkgs.unshift(newPkg);
@@ -1798,7 +1918,15 @@ function setupAdminDashboard() {
   }
 }
 
-function updateBookingStatus(bookingId, newStatus) {
+async function updateBookingStatus(bookingId, newStatus) {
+  try {
+    await fetch(`${API_BASE_URL}/bookings/${encodeURIComponent(bookingId)}/status`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ status: newStatus })
+    });
+  } catch (err) {}
+
   const bookings = getBookings();
   const item = bookings.find(b => b.id === bookingId);
   if (item) {
@@ -1808,8 +1936,14 @@ function updateBookingStatus(bookingId, newStatus) {
   }
 }
 
-function deleteBookingAdmin(bookingId) {
+async function deleteBookingAdmin(bookingId) {
   if (confirm(`Are you sure you want to delete booking ${bookingId}?`)) {
+    try {
+      await fetch(`${API_BASE_URL}/bookings/${encodeURIComponent(bookingId)}`, {
+        method: "DELETE"
+      });
+    } catch (err) {}
+
     let bookings = getBookings();
     bookings = bookings.filter(b => b.id !== bookingId);
     localStorage.setItem("tripEaseBookings", JSON.stringify(bookings));
