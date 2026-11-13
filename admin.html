@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard UI - TripEase Portal</title>
+  <meta name="description" content="Manage bookings, tour packages, revenue metrics and travelers in TripEase Admin Portal.">
+  
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✈️</text></svg>">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body style="background: #f1f5f9;">
+
+  <div class="admin-layout">
+    
+    <!-- SIDEBAR -->
+    <aside class="admin-sidebar">
+      <div class="admin-brand">
+        <div class="logo-icon" style="background: #ff6b35;"><i class="fa-solid fa-plane-departure"></i></div>
+        <span>Trip</span><span class="text-orange">Admin</span>
+      </div>
+
+      <nav class="admin-nav-menu">
+        <a href="admin.html" class="admin-nav-link active">
+          <i class="fa-solid fa-gauge-high"></i> Dashboard
+        </a>
+        <a href="#bookings-section" class="admin-nav-link">
+          <i class="fa-solid fa-calendar-check"></i> Bookings Manager
+        </a>
+        <a href="packages.html" class="admin-nav-link" target="_blank">
+          <i class="fa-solid fa-map-location-dot"></i> Live Packages <i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 0.75rem; margin-left: auto;"></i>
+        </a>
+        <a href="destinations.html" class="admin-nav-link" target="_blank">
+          <i class="fa-solid fa-compass"></i> Live Destinations <i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 0.75rem; margin-left: auto;"></i>
+        </a>
+        <a href="my-trips.html" class="admin-nav-link" target="_blank">
+          <i class="fa-solid fa-suitcase-rolling"></i> Customer Portal <i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 0.75rem; margin-left: auto;"></i>
+        </a>
+        <a href="javascript:void(0)" onclick="openModal('addPackageModal')" class="admin-nav-link text-orange">
+          <i class="fa-solid fa-plus-circle"></i> Add New Tour
+        </a>
+      </nav>
+
+      <!-- Bottom Profile -->
+      <div style="padding-top: 1.5rem; border-top: 1px solid rgba(255, 255, 255, 0.08); margin-top: auto;">
+        <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
+          <div style="width: 40px; height: 40px; border-radius: 50%; background: #0ea5e9; color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 700;">
+            AD
+          </div>
+          <div>
+            <strong style="display: block; font-size: 0.88rem; color: #fff;">Super Admin</strong>
+            <span style="font-size: 0.75rem; color: #64748b;">admin@tripease.com</span>
+          </div>
+        </div>
+        <a href="index.html" class="btn btn-outline-white btn-sm" style="width: 100%;">
+          <i class="fa-solid fa-arrow-left"></i> Exit to Main Website
+        </a>
+      </div>
+    </aside>
+
+    <!-- MAIN ADMIN CONTENT -->
+    <main class="admin-main">
+      
+      <!-- TOP BAR -->
+      <div class="admin-topbar">
+        <div>
+          <h1 style="font-size: 1.85rem; color: #0f2444; margin-bottom: 0.2rem;">Travel Operations Dashboard</h1>
+          <p style="font-size: 0.9rem; color: #64748b; margin: 0;">Live metrics, customer booking records, and catalog controls.</p>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 1rem;">
+          <div style="position: relative; width: 280px;">
+            <input type="text" id="adminSearchInput" placeholder="Search bookings or passengers..." 
+                   class="form-control" style="padding-left: 2.2rem; font-size: 0.88rem; background: #fff;">
+            <i class="fa-solid fa-magnifying-glass" style="position: absolute; left: 0.85rem; top: 50%; transform: translateY(-50%); color: #94a3b8; font-size: 0.85rem;"></i>
+          </div>
+
+          <button class="btn btn-primary" onclick="openModal('addPackageModal')">
+            <i class="fa-solid fa-circle-plus"></i> Add Tour Package
+          </button>
+        </div>
+      </div>
+
+      <!-- METRIC KPI CARDS -->
+      <div class="admin-stats-grid">
+        <div class="admin-stat-card">
+          <div class="admin-stat-info">
+            <p>Total Revenue (INR)</p>
+            <h3 id="adminTotalRevenue">₹1,41,493</h3>
+            <span style="font-size: 0.78rem; color: #10b981; font-weight: 700;">
+              <i class="fa-solid fa-arrow-trend-up"></i> +18.4% from last month
+            </span>
+          </div>
+          <div class="admin-stat-icon" style="background: #e0f2fe; color: #0284c7;">
+            <i class="fa-solid fa-indian-rupee-sign"></i>
+          </div>
+        </div>
+
+        <div class="admin-stat-card">
+          <div class="admin-stat-info">
+            <p>Total Bookings</p>
+            <h3 id="adminTotalBookings">3</h3>
+            <span style="font-size: 0.78rem; color: #10b981; font-weight: 700;">
+              <i class="fa-solid fa-arrow-trend-up"></i> +12.5% volume
+            </span>
+          </div>
+          <div class="admin-stat-icon" style="background: #ecfdf5; color: #10b981;">
+            <i class="fa-solid fa-receipt"></i>
+          </div>
+        </div>
+
+        <div class="admin-stat-card">
+          <div class="admin-stat-info">
+            <p>Active Travelers</p>
+            <h3 id="adminActiveTravelers">2</h3>
+            <span style="font-size: 0.78rem; color: #3b82f6; font-weight: 700;">
+              <i class="fa-solid fa-users"></i> On holiday now
+            </span>
+          </div>
+          <div class="admin-stat-icon" style="background: #fff3ed; color: #ff6b35;">
+            <i class="fa-solid fa-person-walking-luggage"></i>
+          </div>
+        </div>
+
+        <div class="admin-stat-card">
+          <div class="admin-stat-info">
+            <p>Active Packages</p>
+            <h3 id="adminTotalPackages">8</h3>
+            <span style="font-size: 0.78rem; color: #8b5cf6; font-weight: 700;">
+              <i class="fa-solid fa-globe"></i> 100% Verified
+            </span>
+          </div>
+          <div class="admin-stat-icon" style="background: #f5f3ff; color: #8b5cf6;">
+            <i class="fa-solid fa-map"></i>
+          </div>
+        </div>
+      </div>
+
+      <!-- CHARTS SECTION -->
+      <div class="admin-charts-grid">
+        
+        <!-- Revenue Bar Chart -->
+        <div class="chart-card">
+          <div class="chart-card-header">
+            <div>
+              <h3 style="font-size: 1.15rem; color: #0f2444; margin-bottom: 0.2rem;">Monthly Gross Booking Revenue (₹ Lakhs)</h3>
+              <span style="font-size: 0.8rem; color: #64748b;">Financial Performance 2026</span>
+            </div>
+            <span class="badge badge-sky">Fiscal 2026</span>
+          </div>
+
+          <!-- Pure CSS Responsive Bar Chart -->
+          <div class="css-bar-chart">
+            <div class="bar-column">
+              <div class="bar-fill" style="height: 40%;" title="Jun: ₹14.2L"></div>
+              <span class="bar-label">Jun</span>
+            </div>
+            <div class="bar-column">
+              <div class="bar-fill" style="height: 55%;" title="Jul: ₹18.5L"></div>
+              <span class="bar-label">Jul</span>
+            </div>
+            <div class="bar-column">
+              <div class="bar-fill" style="height: 48%;" title="Aug: ₹16.0L"></div>
+              <span class="bar-label">Aug</span>
+            </div>
+            <div class="bar-column">
+              <div class="bar-fill" style="height: 70%;" title="Sep: ₹23.8L"></div>
+              <span class="bar-label">Sep</span>
+            </div>
+            <div class="bar-column">
+              <div class="bar-fill" style="height: 90%; background: linear-gradient(135deg, #ff7e47, #ff5722);" title="Oct: ₹31.4L (Peak Festive)"></div>
+              <span class="bar-label" style="color: #ff6b35; font-weight: 800;">Oct</span>
+            </div>
+            <div class="bar-column">
+              <div class="bar-fill" style="height: 82%;" title="Nov: ₹28.2L"></div>
+              <span class="bar-label">Nov</span>
+            </div>
+            <div class="bar-column">
+              <div class="bar-fill" style="height: 98%;" title="Dec: ₹34.5L (New Year Projected)"></div>
+              <span class="bar-label">Dec</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Booking Distribution & Quality Card -->
+        <div class="chart-card">
+          <div class="chart-card-header">
+            <h3 style="font-size: 1.15rem; color: #0f2444;">Booking Status Mix</h3>
+            <i class="fa-solid fa-chart-pie text-sky"></i>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 1.25rem; margin-top: 1rem;">
+            <div>
+              <div class="flex-between" style="font-size: 0.85rem; margin-bottom: 0.3rem;">
+                <span>Upcoming & Confirmed</span>
+                <strong class="text-success">72%</strong>
+              </div>
+              <div style="height: 8px; background: #e2e8f0; border-radius: 999px; overflow: hidden;">
+                <div style="width: 72%; height: 100%; background: #10b981;"></div>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex-between" style="font-size: 0.85rem; margin-bottom: 0.3rem;">
+                <span>Completed Vacations</span>
+                <strong class="text-sky">22%</strong>
+              </div>
+              <div style="height: 8px; background: #e2e8f0; border-radius: 999px; overflow: hidden;">
+                <div style="width: 22%; height: 100%; background: #0ea5e9;"></div>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex-between" style="font-size: 0.85rem; margin-bottom: 0.3rem;">
+                <span>Cancelled / Refunded</span>
+                <strong class="text-danger">6%</strong>
+              </div>
+              <div style="height: 8px; background: #e2e8f0; border-radius: 999px; overflow: hidden;">
+                <div style="width: 6%; height: 100%; background: #ef4444;"></div>
+              </div>
+            </div>
+
+            <div style="background: #f8fafc; padding: 1rem; border-radius: 8px; border: 1px dashed #cbd5e1; font-size: 0.82rem; color: #64748b; margin-top: 0.5rem;">
+              <i class="fa-solid fa-shield-halved text-success"></i> Customer satisfaction rating is currently at <strong>4.9 / 5.0</strong> across all tours.
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- BOOKINGS MANAGEMENT TABLE -->
+      <section id="bookings-section" class="data-table-card">
+        <div class="flex-between" style="margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
+          <div>
+            <h3 style="font-size: 1.25rem; color: #0f2444; margin-bottom: 0.2rem;">Recent Customer Bookings</h3>
+            <span style="font-size: 0.82rem; color: #64748b;">Manage reservation statuses or remove records.</span>
+          </div>
+
+          <div style="display: flex; gap: 0.5rem;">
+            <button class="btn btn-outline-navy btn-sm" onclick="showToast('Booking reports exported as CSV!', 'info')">
+              <i class="fa-solid fa-file-csv"></i> Export CSV
+            </button>
+            <button class="btn btn-navy btn-sm" onclick="setupAdminDashboard(); showToast('Data refreshed!', 'info');">
+              <i class="fa-solid fa-rotate"></i> Refresh
+            </button>
+          </div>
+        </div>
+
+        <div style="overflow-x: auto;">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Booking Ref</th>
+                <th>Passenger</th>
+                <th>Tour Package & Date</th>
+                <th>Amount</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <!-- Injected by js/script.js -->
+            <tbody id="adminBookingsTableBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+    </main>
+
+  </div>
+
+  <!-- ADD NEW PACKAGE MODAL -->
+  <div class="modal-backdrop" id="addPackageModal">
+    <div class="modal-box" style="max-width: 650px;">
+      <div class="modal-header">
+        <h3 style="font-size: 1.25rem; color: #0f2444;">
+          <i class="fa-solid fa-circle-plus text-orange"></i> Add New Tour Package
+        </h3>
+        <button class="modal-close-btn" onclick="closeModal('addPackageModal')"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <div class="modal-body">
+        <form id="addNewPackageForm">
+          <div class="form-group">
+            <label class="form-label">Package Title *</label>
+            <input type="text" id="pkgNewTitle" class="form-control" placeholder="e.g. Royal Jaisalmer Desert Camp & Forts" required>
+          </div>
+
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label class="form-label">Destination & State/Country *</label>
+              <input type="text" id="pkgNewDestination" class="form-control" placeholder="e.g. Jaisalmer, Rajasthan" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Price per Person (INR ₹) *</label>
+              <input type="number" id="pkgNewPrice" class="form-control" placeholder="21999" required>
+            </div>
+          </div>
+
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label class="form-label">Category</label>
+              <select id="pkgNewCategory" class="form-control">
+                <option value="Honeymoon">Honeymoon</option>
+                <option value="Family">Family</option>
+                <option value="Adventure">Adventure</option>
+                <option value="Beaches">Beaches</option>
+                <option value="Heritage" selected>Heritage</option>
+                <option value="Luxury">Luxury</option>
+                <option value="International">International</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Duration String</label>
+              <input type="text" id="pkgNewDuration" class="form-control" placeholder="4 Nights / 5 Days" value="4 Nights / 5 Days">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Cover Image URL (Unsplash or direct image link)</label>
+            <input type="url" id="pkgNewImage" class="form-control" placeholder="https://images.unsplash.com/..." value="https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=800&q=80">
+          </div>
+
+          <div class="modal-footer" style="padding-left: 0; padding-right: 0; padding-bottom: 0;">
+            <button type="button" class="btn btn-ghost" onclick="closeModal('addPackageModal')">Cancel</button>
+            <button type="submit" class="btn btn-primary">Publish Package</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/script.js"></script>
+</body>
+</html>
