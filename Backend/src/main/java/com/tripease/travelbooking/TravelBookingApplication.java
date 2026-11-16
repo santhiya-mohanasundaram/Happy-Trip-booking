@@ -8,6 +8,9 @@ import java.io.File;
 import java.io.FileReader;
 import java.nio.charset.StandardCharsets;
 
+/**
+ * TripEase Travel Booking System - Spring Boot Backend Application Entrypoint.
+ */
 @SpringBootApplication
 public class TravelBookingApplication {
 
