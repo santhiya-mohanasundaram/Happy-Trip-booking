@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create an Account - TripEase</title>
+  <meta name="description" content="Sign up for TripEase to start planning memorable holidays, unlock members-only deals and manage bookings.">
+  
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✈️</text></svg>">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <div class="auth-page-wrap">
+    
+    <!-- LEFT VISUAL BRANDING SIDE -->
+    <div class="auth-visual-side" style="background: linear-gradient(rgba(15, 36, 68, 0.78), rgba(9, 23, 44, 0.92)), url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;">
+      <div>
+        <a href="index.html" class="logo" style="color: #ffffff;">
+          <div class="logo-icon"><i class="fa-solid fa-plane-departure"></i></div>
+          <span>Trip</span><span class="text-orange">Ease</span>
+        </a>
+      </div>
+
+      <div>
+        <span class="badge badge-sky" style="margin-bottom: 1rem;"><i class="fa-solid fa-gift"></i> New Member Benefit</span>
+        <h2 style="font-size: 2.75rem; color: #ffffff; line-height: 1.2; margin-bottom: 1.25rem;">
+          Join the Family of 150,000+ Happy Travelers
+        </h2>
+        <p style="font-size: 1.1rem; color: #cbd5e1; max-width: 480px; margin-bottom: 2rem;">
+          Unlock ₹2,000 off your maiden booking, receive secret seasonal flight and hotel tariffs, and enjoy VIP concierge service on every journey.
+        </p>
+
+        <!-- Perks List -->
+        <div style="display: flex; flex-direction: column; gap: 0.85rem; max-width: 440px;">
+          <div style="display: flex; align-items: center; gap: 0.75rem; color: #f1f5f9; font-size: 0.92rem;">
+            <i class="fa-solid fa-circle-check text-orange"></i>
+            <span>Exclusive member-only discounts on Indian & international packages</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 0.75rem; color: #f1f5f9; font-size: 0.92rem;">
+            <i class="fa-solid fa-circle-check text-orange"></i>
+            <span>Instant E-Voucher & digital boarding pass downloads</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 0.75rem; color: #f1f5f9; font-size: 0.92rem;">
+            <i class="fa-solid fa-circle-check text-orange"></i>
+            <span>Zero cancellation fee on select luxury retreats</span>
+          </div>
+        </div>
+      </div>
+
+      <div style="font-size: 0.82rem; color: #94a3b8;">
+        &copy; 2026 TripEase Technologies Pvt. Ltd. All rights reserved.
+      </div>
+    </div>
+
+    <!-- RIGHT REGISTRATION FORM SIDE -->
+    <div class="auth-form-side">
+      <div class="auth-form-container">
+        
+        <!-- Header -->
+        <div class="auth-header">
+          <div style="margin-bottom: 1rem;">
+            <a href="index.html" class="btn btn-ghost btn-sm" style="padding-left: 0; color: #64748b;">
+              <i class="fa-solid fa-arrow-left"></i> Back to Homepage
+            </a>
+          </div>
+          <h1 class="auth-title">Create an Account</h1>
+          <p class="auth-subtitle">Join today and start curating your dream vacations.</p>
+        </div>
+
+        <!-- Registration Form -->
+        <form id="registerForm">
+          
+          <div class="form-group">
+            <label class="form-label" for="regName">Full Legal Name</label>
+            <div style="position: relative;">
+              <input type="text" id="regName" class="form-control" placeholder="e.g. Arjun Sharma" required style="padding-left: 2.5rem;">
+              <i class="fa-regular fa-user" style="position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: #94a3b8;"></i>
+            </div>
+          </div>
+
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label class="form-label" for="regEmail">Email Address</label>
+              <div style="position: relative;">
+                <input type="email" id="regEmail" class="form-control" placeholder="arjun@example.com" required style="padding-left: 2.5rem;">
+                <i class="fa-regular fa-envelope" style="position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: #94a3b8;"></i>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="regPhone">Phone (with +91)</label>
+              <div style="position: relative;">
+                <input type="tel" id="regPhone" class="form-control" placeholder="+91 98765 43210" required style="padding-left: 2.5rem;">
+                <i class="fa-solid fa-phone" style="position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: #94a3b8;"></i>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label class="form-label" for="regPassword">Create Password</label>
+              <div class="password-input-wrap">
+                <input type="password" id="regPassword" class="form-control" placeholder="••••••••" required style="padding-left: 2.5rem; padding-right: 2.5rem;">
+                <i class="fa-solid fa-lock" style="position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: #94a3b8;"></i>
+                <button type="button" class="password-toggle-btn" aria-label="Toggle password visibility">
+                  <i class="fa-regular fa-eye"></i>
+                </button>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="regConfirmPassword">Confirm Password</label>
+              <div class="password-input-wrap">
+                <input type="password" id="regConfirmPassword" class="form-control" placeholder="••••••••" required style="padding-left: 2.5rem; padding-right: 2.5rem;">
+                <i class="fa-solid fa-shield-check" style="position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: #94a3b8;"></i>
+              </div>
+            </div>
+          </div>
+
+          <!-- Terms Checkbox -->
+          <div style="margin-bottom: 1.5rem; font-size: 0.85rem; color: #475569;">
+            <label style="display: flex; align-items: flex-start; gap: 0.6rem; cursor: pointer;">
+              <input type="checkbox" id="regTerms" checked required style="margin-top: 0.25rem; accent-color: #ff6b35;">
+              <span>I agree to TripEase <a href="#" style="color: #0284c7; font-weight: 600;">Terms of Service</a>, <a href="#" style="color: #0284c7; font-weight: 600;">Privacy Policy</a>, and booking cancellation terms.</span>
+            </label>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-lg" style="width: 100%;">
+            <i class="fa-solid fa-user-plus"></i> Complete Registration
+          </button>
+        </form>
+
+        <!-- Switch to Login -->
+        <div style="text-align: center; margin-top: 1.75rem; font-size: 0.92rem; color: #64748b;">
+          Already have an account? 
+          <a href="login.html" style="color: #ff6b35; font-weight: 700;">Sign In</a>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <script src="js/script.js"></script>
+</body>
+</html>

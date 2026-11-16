@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tour Packages - TripEase</title>
+  <meta name="description" content="Browse curated holiday packages with verified stays, transfers and sightseeing across India and worldwide.">
+  
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✈️</text></svg>">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <div class="container">
+      <div class="topbar-info">
+        <span><i class="fa-solid fa-phone text-orange"></i> 24/7 Helpline: <strong>1800-209-8747</strong></span>
+        <span><i class="fa-solid fa-envelope text-sky"></i> support@tripease.com</span>
+        <span><i class="fa-solid fa-shield-halved text-success"></i> 100% Verified Stays & ATOL Protected</span>
+      </div>
+      <div class="topbar-actions">
+        <span><i class="fa-solid fa-indian-rupee-sign text-orange"></i> INR (₹)</span>
+        <a href="admin.html"><i class="fa-solid fa-lock text-sky"></i> Admin Portal</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- NAVIGATION BAR -->
+  <nav class="navbar">
+    <div class="container nav-container">
+      <a href="index.html" class="logo">
+        <div class="logo-icon"><i class="fa-solid fa-plane-departure"></i></div>
+        Trip<span>Ease</span>
+      </a>
+
+      <ul class="nav-menu" id="navMenu">
+        <li><a href="index.html" class="nav-link">Home</a></li>
+        <li><a href="destinations.html" class="nav-link">Destinations</a></li>
+        <li><a href="packages.html" class="nav-link active">Tour Packages</a></li>
+        <li><a href="my-trips.html" class="nav-link">My Trips</a></li>
+        <li><a href="admin.html" class="nav-link">Admin UI</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <a href="packages.html" class="nav-wishlist-btn" title="Saved Wishlist">
+          <i class="fa-regular fa-heart"></i>
+          <span class="nav-badge-count" id="navWishlistCount">0</span>
+        </a>
+        <div id="navUserSection" style="display: flex; align-items: center; gap: 0.75rem;"></div>
+        <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle navigation">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- PAGE HERO -->
+  <header class="page-hero packages-hero">
+    <div class="container">
+      <div class="breadcrumbs">
+        <a href="index.html">Home</a>
+        <i class="fa-solid fa-chevron-right" style="font-size: 0.75rem;"></i>
+        <span class="current">Tour Packages</span>
+      </div>
+      <h1 class="page-hero-title">Handcrafted Holiday Packages</h1>
+      <p class="page-hero-desc">
+        Complete holiday experiences with handpicked 4★ & 5★ stays, private chauffeurs, breakfast & dinners, and curated sightseeing included.
+      </p>
+    </div>
+  </header>
+
+  <!-- PACKAGES MAIN SECTION (SIDEBAR + GRID) -->
+  <section class="section">
+    <div class="container">
+      <div class="packages-layout">
+        
+        <!-- SIDEBAR FILTERS -->
+        <aside class="filter-sidebar">
+          <div class="filter-header">
+            <h3 style="font-size: 1.15rem; color: #0f2444; display: flex; align-items: center; gap: 0.5rem;">
+              <i class="fa-solid fa-filter text-sky"></i> Filters
+            </h3>
+            <button onclick="resetPackageFilters()" style="background: none; color: #ef4444; font-size: 0.85rem; font-weight: 600;">
+              Reset All
+            </button>
+          </div>
+
+          <!-- Keyword Search -->
+          <div class="filter-group">
+            <label class="filter-title" for="pkgSearchInput">Search Keywords</label>
+            <div style="position: relative;">
+              <input type="text" id="pkgSearchInput" placeholder="e.g. Kashmir, Beach, Goa..." 
+                     class="form-control" style="padding-left: 2.2rem; font-size: 0.88rem;">
+              <i class="fa-solid fa-magnifying-glass" style="position: absolute; left: 0.85rem; top: 50%; transform: translateY(-50%); color: #94a3b8; font-size: 0.85rem;"></i>
+            </div>
+          </div>
+
+          <!-- Price Range Slider -->
+          <div class="filter-group">
+            <div class="filter-title">
+              <span>Budget per Person</span>
+              <span id="priceSliderValue" style="color: #ff6b35; font-weight: 800;">₹1,50,000</span>
+            </div>
+            <input type="range" id="priceSlider" min="10000" max="150000" step="5000" value="150000" class="price-range-slider">
+            <div class="price-slider-values">
+              <span>₹10,000</span>
+              <span>₹1,50,000+</span>
+            </div>
+          </div>
+
+          <!-- Category Filter -->
+          <div class="filter-group">
+            <span class="filter-title">Trip Style</span>
+            <div class="filter-options-list">
+              <label class="filter-checkbox-label">
+                <input type="checkbox" value="Honeymoon" class="cat-filter-checkbox">
+                <span>Honeymoon & Couple</span>
+              </label>
+              <label class="filter-checkbox-label">
+                <input type="checkbox" value="Family" class="cat-filter-checkbox">
+                <span>Family Holiday</span>
+              </label>
+              <label class="filter-checkbox-label">
+                <input type="checkbox" value="Beaches" class="cat-filter-checkbox">
+                <span>Beach & Coastal</span>
+              </label>
+              <label class="filter-checkbox-label">
+                <input type="checkbox" value="Adventure" class="cat-filter-checkbox">
+                <span>Adventure & Expedition</span>
+              </label>
+              <label class="filter-checkbox-label">
+                <input type="checkbox" value="Heritage" class="cat-filter-checkbox">
+                <span>Royal Heritage</span>
+              </label>
+              <label class="filter-checkbox-label">
+                <input type="checkbox" value="Luxury" class="cat-filter-checkbox">
+                <span>Luxury Retreat</span>
+              </label>
+              <label class="filter-checkbox-label">
+                <input type="checkbox" value="International" class="cat-filter-checkbox">
+                <span>International Tours</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Duration Filter -->
+          <div class="filter-group">
+            <span class="filter-title">Duration</span>
+            <div class="filter-options-list">
+              <label class="filter-checkbox-label">
+                <input type="checkbox" value="short" class="duration-filter-checkbox">
+                <span>Short Break (3 - 4 Days)</span>
+              </label>
+              <label class="filter-checkbox-label">
+                <input type="checkbox" value="medium" class="duration-filter-checkbox">
+                <span>Standard (5 - 7 Days)</span>
+              </label>
+              <label class="filter-checkbox-label">
+                <input type="checkbox" value="long" class="duration-filter-checkbox">
+                <span>Extended (8+ Days)</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Rating Filter -->
+          <div class="filter-group" style="margin-bottom: 0;">
+            <span class="filter-title">Customer Rating</span>
+            <div class="filter-options-list">
+              <label class="filter-checkbox-label">
+                <input type="checkbox" value="4.8" class="rating-filter-checkbox">
+                <span><i class="fa-solid fa-star text-warning"></i> 4.8 & Above (Exceptional)</span>
+              </label>
+              <label class="filter-checkbox-label">
+                <input type="checkbox" value="4.5" class="rating-filter-checkbox">
+                <span><i class="fa-solid fa-star text-warning"></i> 4.5 & Above (Very Good)</span>
+              </label>
+            </div>
+          </div>
+        </aside>
+
+        <!-- MAIN PACKAGES LISTING -->
+        <main>
+          <!-- Top Sort & Count Bar -->
+          <div class="packages-topbar">
+            <div class="packages-count-badge">
+              Showing <strong id="packagesFoundCount">8</strong> Tour Packages
+            </div>
+            
+            <div class="packages-sort-wrap">
+              <label for="pkgSortSelect" style="font-size: 0.88rem; font-weight: 600; color: #64748b;">Sort By:</label>
+              <select id="pkgSortSelect" class="sort-select">
+                <option value="popular">Popularity & Rating</option>
+                <option value="price-low">Price: Low to High</option>
+                <option value="price-high">Price: High to Low</option>
+                <option value="rating">Highest Rated</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Packages Grid (Injected by js/script.js) -->
+          <div class="packages-grid" id="packagesContainer"></div>
+        </main>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container footer-grid">
+      <div>
+        <a href="index.html" class="logo footer-logo">
+          <div class="logo-icon"><i class="fa-solid fa-plane-departure"></i></div>
+          <span style="color:#fff;">Trip</span><span class="text-orange">Ease</span>
+        </a>
+        <p class="footer-about">
+          TripEase is India's premier holiday booking platform offering curated vacations, customizable packages, and transparent pricing in Indian Rupees.
+        </p>
+        <div class="footer-socials">
+          <a href="#" class="social-btn"><i class="fa-brands fa-facebook-f"></i></a>
+          <a href="#" class="social-btn"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#" class="social-btn"><i class="fa-brands fa-x-twitter"></i></a>
+        </div>
+      </div>
+
+      <div>
+        <h4 class="footer-heading">Quick Links</h4>
+        <ul class="footer-links">
+          <li><a href="index.html"><i class="fa-solid fa-chevron-right"></i> Home</a></li>
+          <li><a href="destinations.html"><i class="fa-solid fa-chevron-right"></i> Destinations</a></li>
+          <li><a href="packages.html"><i class="fa-solid fa-chevron-right"></i> Tour Packages</a></li>
+          <li><a href="my-trips.html"><i class="fa-solid fa-chevron-right"></i> My Bookings</a></li>
+          <li><a href="admin.html"><i class="fa-solid fa-chevron-right"></i> Admin Dashboard</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="footer-heading">Top Packages</h4>
+        <ul class="footer-links">
+          <li><a href="package-details.html?id=pkg-1"><i class="fa-solid fa-chevron-right"></i> Kashmir Dal Lake Special</a></li>
+          <li><a href="package-details.html?id=pkg-2"><i class="fa-solid fa-chevron-right"></i> Kerala Backwaters & Munnar</a></li>
+          <li><a href="package-details.html?id=pkg-4"><i class="fa-solid fa-chevron-right"></i> Ladakh Pangong Expedition</a></li>
+          <li><a href="package-details.html?id=pkg-3"><i class="fa-solid fa-chevron-right"></i> Goa Beach & Sunset Cruise</a></li>
+          <li><a href="package-details.html?id=pkg-6"><i class="fa-solid fa-chevron-right"></i> Bali Tropical Private Villa</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="footer-heading">Support & Booking</h4>
+        <div class="footer-contact-list">
+          <div class="contact-item">
+            <i class="fa-solid fa-phone"></i>
+            <span>Toll Free: 1800-209-8747</span>
+          </div>
+          <div class="contact-item">
+            <i class="fa-solid fa-envelope"></i>
+            <span>support@tripease.com</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="container">
+        <div>&copy; 2026 TripEase Travel Technologies Pvt. Ltd. All rights reserved.</div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/script.js"></script>
+</body>
+</html>
