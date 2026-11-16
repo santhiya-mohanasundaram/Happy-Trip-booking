@@ -36,6 +36,7 @@ out/
 # Environment and sensitive configuration
 .env
 .env.*
+!.env.example
 application-local.properties
 application-local.yml
 
