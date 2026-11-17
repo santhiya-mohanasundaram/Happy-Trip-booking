@@ -74,10 +74,10 @@
 
         <!-- Social Quick Login -->
         <div class="social-login-grid">
-          <button type="button" class="social-btn-login" onclick="showToast('Google Sign-In simulated successfully!', 'success'); localStorage.setItem('tripEaseUser', JSON.stringify({name: 'Google User', email: 'user@gmail.com'})); setTimeout(() => window.location.href='index.html', 800);">
+          <button type="button" class="social-btn-login" onclick="handleSocialQuickLogin('Google User', 'user@gmail.com')">
             <i class="fa-brands fa-google text-danger"></i> Google
           </button>
-          <button type="button" class="social-btn-login" onclick="showToast('Facebook Sign-In simulated!', 'info'); localStorage.setItem('tripEaseUser', JSON.stringify({name: 'Facebook User', email: 'fb@example.com'})); setTimeout(() => window.location.href='index.html', 800);">
+          <button type="button" class="social-btn-login" onclick="handleSocialQuickLogin('Facebook User', 'fb@example.com')">
             <i class="fa-brands fa-facebook text-sky"></i> Facebook
           </button>
         </div>

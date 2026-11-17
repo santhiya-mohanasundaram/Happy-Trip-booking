@@ -922,6 +922,51 @@ function handlePackageAction(targetUrl, event) {
   return handleBookingClick(targetUrl, event);
 }
 
+function handleSocialQuickLogin(name, email) {
+  const user = { name: name, email: email, phone: "+91 98765 43210", role: "USER" };
+  localStorage.setItem("tripEaseUser", JSON.stringify(user));
+  showToast(`Welcome, ${name}!`, "success");
+  const targetUrl = getPostLoginRedirectUrl(user);
+  setTimeout(() => {
+    window.location.href = targetUrl;
+  }, 600);
+}
+
+function getPostLoginRedirectUrl(user) {
+  if (user && user.role === "ADMIN") {
+    return "admin.html";
+  }
+  const params = new URLSearchParams(window.location.search);
+  let redirectUrl = params.get("redirect");
+  const destParam = params.get("dest");
+  const claimParam = params.get("claim");
+  let targetUrl = "index.html";
+
+  if (redirectUrl) {
+    if (!redirectUrl.includes("?") && params.get("id")) {
+      redirectUrl += `?id=${encodeURIComponent(params.get("id"))}`;
+    }
+    if (params.get("date") && !redirectUrl.includes("date=")) {
+      redirectUrl += (redirectUrl.includes("?") ? "&" : "?") + `date=${encodeURIComponent(params.get("date"))}`;
+    }
+    if (params.get("guests") && !redirectUrl.includes("guests=")) {
+      redirectUrl += (redirectUrl.includes("?") ? "&" : "?") + `guests=${encodeURIComponent(params.get("guests"))}`;
+    }
+    targetUrl = redirectUrl;
+    const qParts = [];
+    if (destParam && !targetUrl.includes("dest=")) qParts.push(`dest=${encodeURIComponent(destParam)}`);
+    if (claimParam && !targetUrl.includes("claim=")) qParts.push(`claim=${encodeURIComponent(claimParam)}`);
+    if (qParts.length) targetUrl += (targetUrl.includes("?") ? "&" : "?") + qParts.join("&");
+  } else if (params.get("id")) {
+    targetUrl = `booking.html?id=${encodeURIComponent(params.get("id"))}`;
+    if (params.get("date")) targetUrl += `&date=${encodeURIComponent(params.get("date"))}`;
+    if (params.get("guests")) targetUrl += `&guests=${encodeURIComponent(params.get("guests"))}`;
+  } else if (claimParam) {
+    targetUrl = `index.html?claim=${encodeURIComponent(claimParam)}`;
+  }
+  return targetUrl;
+}
+
 // --- RENDER DESTINATION CARDS ---
 function renderDestinationsGrid(destinations, containerId) {
   const container = document.getElementById(containerId);
@@ -1413,7 +1458,7 @@ function setupBookingPage() {
   const userJson = localStorage.getItem("tripEaseUser");
   if (!userJson) {
     const returnUrl = "booking.html" + window.location.search;
-    window.location.href = `login.html?redirect=${encodeURIComponent(returnUrl)}`;
+    window.location.replace(`login.html?redirect=${encodeURIComponent(returnUrl)}`);
     return;
   }
 
@@ -2106,31 +2151,7 @@ function setupAuthPages() {
           localStorage.setItem("tripEaseUser", JSON.stringify(user));
           showToast(`Welcome back, ${result.data.name}!`, "success");
 
-          const params = new URLSearchParams(window.location.search);
-          let redirectUrl = params.get("redirect");
-          const destParam = params.get("dest");
-          const claimParam = params.get("claim");
-          let targetUrl = "index.html";
-          if (result.data.role === "ADMIN") {
-            targetUrl = "admin.html";
-          } else if (redirectUrl) {
-            if (!redirectUrl.includes("?") && params.get("id")) {
-              redirectUrl += `?id=${encodeURIComponent(params.get("id"))}`;
-            }
-            if (params.get("date") && !redirectUrl.includes("date=")) {
-              redirectUrl += (redirectUrl.includes("?") ? "&" : "?") + `date=${encodeURIComponent(params.get("date"))}`;
-            }
-            if (params.get("guests") && !redirectUrl.includes("guests=")) {
-              redirectUrl += (redirectUrl.includes("?") ? "&" : "?") + `guests=${encodeURIComponent(params.get("guests"))}`;
-            }
-            targetUrl = redirectUrl;
-            const qParts = [];
-            if (destParam && !targetUrl.includes("dest=")) qParts.push(`dest=${encodeURIComponent(destParam)}`);
-            if (claimParam && !targetUrl.includes("claim=")) qParts.push(`claim=${encodeURIComponent(claimParam)}`);
-            if (qParts.length) targetUrl += (targetUrl.includes("?") ? "&" : "?") + qParts.join("&");
-          } else if (claimParam) {
-            targetUrl = `index.html?claim=${encodeURIComponent(claimParam)}`;
-          }
+          const targetUrl = getPostLoginRedirectUrl(user);
           setTimeout(() => window.location.href = targetUrl, 800);
           return;
         } else {
@@ -2151,29 +2172,7 @@ function setupAuthPages() {
         localStorage.setItem("tripEaseUser", JSON.stringify(user));
         showToast(`Welcome back, ${displayName}!`, "success");
 
-        const params = new URLSearchParams(window.location.search);
-        let redirectUrl = params.get("redirect");
-        const destParam = params.get("dest");
-        const claimParam = params.get("claim");
-        let targetUrl = isDemoAdmin ? "admin.html" : "index.html";
-        if (!isDemoAdmin && redirectUrl) {
-          if (!redirectUrl.includes("?") && params.get("id")) {
-            redirectUrl += `?id=${encodeURIComponent(params.get("id"))}`;
-          }
-          if (params.get("date") && !redirectUrl.includes("date=")) {
-            redirectUrl += (redirectUrl.includes("?") ? "&" : "?") + `date=${encodeURIComponent(params.get("date"))}`;
-          }
-          if (params.get("guests") && !redirectUrl.includes("guests=")) {
-            redirectUrl += (redirectUrl.includes("?") ? "&" : "?") + `guests=${encodeURIComponent(params.get("guests"))}`;
-          }
-          targetUrl = redirectUrl;
-          const qParts = [];
-          if (destParam && !targetUrl.includes("dest=")) qParts.push(`dest=${encodeURIComponent(destParam)}`);
-          if (claimParam && !targetUrl.includes("claim=")) qParts.push(`claim=${encodeURIComponent(claimParam)}`);
-          if (qParts.length) targetUrl += (targetUrl.includes("?") ? "&" : "?") + qParts.join("&");
-        } else if (!isDemoAdmin && claimParam) {
-          targetUrl = `index.html?claim=${encodeURIComponent(claimParam)}`;
-        }
+        const targetUrl = getPostLoginRedirectUrl(user);
         setTimeout(() => window.location.href = targetUrl, 800);
       }
     });

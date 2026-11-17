@@ -9,6 +9,20 @@
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✈️</text></svg>">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="stylesheet" href="css/style.css">
+  <script>
+    // Strict Booking Authentication Guard: Requires active login session
+    (function() {
+      try {
+        var user = localStorage.getItem("tripEaseUser");
+        if (!user) {
+          var target = "booking.html" + (window.location.search || "");
+          window.location.replace("login.html?redirect=" + encodeURIComponent(target));
+        }
+      } catch (e) {
+        window.location.replace("login.html?redirect=booking.html");
+      }
+    })();
+  </script>
 </head>
 <body>
 
