@@ -896,8 +896,26 @@ function logoutUser() {
   localStorage.removeItem("tripEaseUser");
   showToast("You have been signed out successfully.", "info");
   setTimeout(() => {
-    window.location.reload();
-  }, 800);
+    const path = window.location.pathname.toLowerCase();
+    if (path.includes("booking.html") || path.includes("package-details.html") || path.includes("my-trips.html") || path.includes("admin.html")) {
+      window.location.href = "login.html";
+    } else {
+      window.location.reload();
+    }
+  }, 600);
+}
+
+function handlePackageAction(targetUrl, event) {
+  if (event) {
+    event.preventDefault();
+    event.stopPropagation();
+  }
+  const user = localStorage.getItem("tripEaseUser");
+  if (!user) {
+    window.location.href = `login.html?redirect=${encodeURIComponent(targetUrl)}`;
+    return;
+  }
+  window.location.href = targetUrl;
 }
 
 // --- RENDER DESTINATION CARDS ---
@@ -1118,7 +1136,7 @@ function renderPackagesGrid(packages, containerId) {
             <i class="fa-solid fa-location-dot"></i> ${pkg.destination}
           </div>
           <h3 class="package-title">
-            <a href="package-details.html?id=${pkg.id}">${pkg.title}</a>
+            <a href="package-details.html?id=${pkg.id}" onclick="handlePackageAction('package-details.html?id=${pkg.id}', event)">${pkg.title}</a>
           </h3>
 
           <div class="package-rating" style="display: flex; align-items: center; justify-content: space-between;">
@@ -1146,8 +1164,8 @@ function renderPackagesGrid(packages, containerId) {
               <span class="price-unit">per person (twin sharing)</span>
             </div>
             <div style="display: flex; gap: 0.5rem;">
-              <a href="package-details.html?id=${pkg.id}" class="btn btn-navy btn-sm">Details</a>
-              <a href="booking.html?id=${pkg.id}" class="btn btn-primary btn-sm">Book</a>
+              <a href="package-details.html?id=${pkg.id}" onclick="handlePackageAction('package-details.html?id=${pkg.id}', event)" class="btn btn-navy btn-sm">Booking Details</a>
+              <a href="booking.html?id=${pkg.id}" onclick="handlePackageAction('booking.html?id=${pkg.id}', event)" class="btn btn-primary btn-sm">Book Now</a>
             </div>
           </div>
         </div>
@@ -1187,6 +1205,13 @@ async function togglePackageLike(pkgId, event) {
 
 // --- PACKAGE DETAILS PAGE LOGIC ---
 function setupPackageDetailsPage() {
+  const userJson = localStorage.getItem("tripEaseUser");
+  if (!userJson) {
+    const returnUrl = "package-details.html" + window.location.search;
+    window.location.href = `login.html?redirect=${encodeURIComponent(returnUrl)}`;
+    return;
+  }
+
   const params = new URLSearchParams(window.location.search);
   const pkgId = params.get("id") || "pkg-1";
   const allPackages = getPackages();
@@ -1333,7 +1358,13 @@ function setupPackageDetailsPage() {
     bookBtn.addEventListener("click", () => {
       const travelDate = document.getElementById("calcDate") ? document.getElementById("calcDate").value : "";
       const guests = document.getElementById("calcGuests") ? document.getElementById("calcGuests").value : "2";
-      window.location.href = `booking.html?id=${pkg.id}&date=${encodeURIComponent(travelDate)}&guests=${guests}`;
+      const bookingUrl = `booking.html?id=${pkg.id}&date=${encodeURIComponent(travelDate)}&guests=${guests}`;
+      const user = localStorage.getItem("tripEaseUser");
+      if (!user) {
+        window.location.href = `login.html?redirect=${encodeURIComponent(bookingUrl)}`;
+        return;
+      }
+      window.location.href = bookingUrl;
     });
   }
 }
@@ -1382,6 +1413,13 @@ function setupStickyCalculator(pkg) {
 
 // --- BOOKING PAGE LOGIC ---
 function setupBookingPage() {
+  const userJson = localStorage.getItem("tripEaseUser");
+  if (!userJson) {
+    const returnUrl = "booking.html" + window.location.search;
+    window.location.href = `login.html?redirect=${encodeURIComponent(returnUrl)}`;
+    return;
+  }
+
   const params = new URLSearchParams(window.location.search);
   const pkgId = params.get("id") || "pkg-1";
   const allPackages = getPackages();
@@ -1789,6 +1827,12 @@ function setupBookingPage() {
 
 // --- MY TRIPS PAGE LOGIC ---
 function setupMyTripsPage() {
+  const userJson = localStorage.getItem("tripEaseUser");
+  if (!userJson) {
+    window.location.href = "login.html?redirect=my-trips.html";
+    return;
+  }
+
   const bookings = getBookings();
   const tripsContainer = document.getElementById("myTripsList");
   if (!tripsContainer) return;
@@ -2022,6 +2066,14 @@ function setupAuthPages() {
   // Login Form Submission
   const loginForm = document.getElementById("loginForm");
   if (loginForm) {
+    // Forward redirect parameter to register link if present
+    const redirectForReg = new URLSearchParams(window.location.search).get("redirect");
+    if (redirectForReg) {
+      document.querySelectorAll('a[href*="register.html"]').forEach(link => {
+        link.href = `register.html?redirect=${encodeURIComponent(redirectForReg)}`;
+      });
+    }
+
     // If arriving from registration
     const urlParams = new URLSearchParams(window.location.search);
     if (urlParams.get("registered")) {
@@ -2058,18 +2110,27 @@ function setupAuthPages() {
           showToast(`Welcome back, ${result.data.name}!`, "success");
 
           const params = new URLSearchParams(window.location.search);
-          const redirectUrl = params.get("redirect");
+          let redirectUrl = params.get("redirect");
           const destParam = params.get("dest");
           const claimParam = params.get("claim");
           let targetUrl = "index.html";
           if (result.data.role === "ADMIN") {
             targetUrl = "admin.html";
           } else if (redirectUrl) {
+            if (!redirectUrl.includes("?") && params.get("id")) {
+              redirectUrl += `?id=${encodeURIComponent(params.get("id"))}`;
+            }
+            if (params.get("date") && !redirectUrl.includes("date=")) {
+              redirectUrl += (redirectUrl.includes("?") ? "&" : "?") + `date=${encodeURIComponent(params.get("date"))}`;
+            }
+            if (params.get("guests") && !redirectUrl.includes("guests=")) {
+              redirectUrl += (redirectUrl.includes("?") ? "&" : "?") + `guests=${encodeURIComponent(params.get("guests"))}`;
+            }
             targetUrl = redirectUrl;
             const qParts = [];
-            if (destParam) qParts.push(`dest=${encodeURIComponent(destParam)}`);
-            if (claimParam) qParts.push(`claim=${encodeURIComponent(claimParam)}`);
-            if (qParts.length) targetUrl += `?${qParts.join("&")}`;
+            if (destParam && !targetUrl.includes("dest=")) qParts.push(`dest=${encodeURIComponent(destParam)}`);
+            if (claimParam && !targetUrl.includes("claim=")) qParts.push(`claim=${encodeURIComponent(claimParam)}`);
+            if (qParts.length) targetUrl += (targetUrl.includes("?") ? "&" : "?") + qParts.join("&");
           } else if (claimParam) {
             targetUrl = `index.html?claim=${encodeURIComponent(claimParam)}`;
           }
@@ -2092,7 +2153,31 @@ function setupAuthPages() {
         };
         localStorage.setItem("tripEaseUser", JSON.stringify(user));
         showToast(`Welcome back, ${displayName}!`, "success");
-        setTimeout(() => window.location.href = isDemoAdmin ? "admin.html" : "index.html", 800);
+
+        const params = new URLSearchParams(window.location.search);
+        let redirectUrl = params.get("redirect");
+        const destParam = params.get("dest");
+        const claimParam = params.get("claim");
+        let targetUrl = isDemoAdmin ? "admin.html" : "index.html";
+        if (!isDemoAdmin && redirectUrl) {
+          if (!redirectUrl.includes("?") && params.get("id")) {
+            redirectUrl += `?id=${encodeURIComponent(params.get("id"))}`;
+          }
+          if (params.get("date") && !redirectUrl.includes("date=")) {
+            redirectUrl += (redirectUrl.includes("?") ? "&" : "?") + `date=${encodeURIComponent(params.get("date"))}`;
+          }
+          if (params.get("guests") && !redirectUrl.includes("guests=")) {
+            redirectUrl += (redirectUrl.includes("?") ? "&" : "?") + `guests=${encodeURIComponent(params.get("guests"))}`;
+          }
+          targetUrl = redirectUrl;
+          const qParts = [];
+          if (destParam && !targetUrl.includes("dest=")) qParts.push(`dest=${encodeURIComponent(destParam)}`);
+          if (claimParam && !targetUrl.includes("claim=")) qParts.push(`claim=${encodeURIComponent(claimParam)}`);
+          if (qParts.length) targetUrl += (targetUrl.includes("?") ? "&" : "?") + qParts.join("&");
+        } else if (!isDemoAdmin && claimParam) {
+          targetUrl = `index.html?claim=${encodeURIComponent(claimParam)}`;
+        }
+        setTimeout(() => window.location.href = targetUrl, 800);
       }
     });
   }
