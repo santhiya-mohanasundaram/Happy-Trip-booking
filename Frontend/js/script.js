@@ -905,7 +905,7 @@ function logoutUser() {
   }, 600);
 }
 
-function handlePackageAction(targetUrl, event) {
+function handleBookingClick(targetUrl, event) {
   if (event) {
     event.preventDefault();
     event.stopPropagation();
@@ -916,6 +916,10 @@ function handlePackageAction(targetUrl, event) {
     return;
   }
   window.location.href = targetUrl;
+}
+
+function handlePackageAction(targetUrl, event) {
+  return handleBookingClick(targetUrl, event);
 }
 
 // --- RENDER DESTINATION CARDS ---
@@ -1136,7 +1140,7 @@ function renderPackagesGrid(packages, containerId) {
             <i class="fa-solid fa-location-dot"></i> ${pkg.destination}
           </div>
           <h3 class="package-title">
-            <a href="package-details.html?id=${pkg.id}" onclick="handlePackageAction('package-details.html?id=${pkg.id}', event)">${pkg.title}</a>
+            <a href="package-details.html?id=${pkg.id}">${pkg.title}</a>
           </h3>
 
           <div class="package-rating" style="display: flex; align-items: center; justify-content: space-between;">
@@ -1164,8 +1168,8 @@ function renderPackagesGrid(packages, containerId) {
               <span class="price-unit">per person (twin sharing)</span>
             </div>
             <div style="display: flex; gap: 0.5rem;">
-              <a href="package-details.html?id=${pkg.id}" onclick="handlePackageAction('package-details.html?id=${pkg.id}', event)" class="btn btn-navy btn-sm">Booking Details</a>
-              <a href="booking.html?id=${pkg.id}" onclick="handlePackageAction('booking.html?id=${pkg.id}', event)" class="btn btn-primary btn-sm">Book Now</a>
+              <a href="package-details.html?id=${pkg.id}" class="btn btn-navy btn-sm">Details</a>
+              <a href="booking.html?id=${pkg.id}" onclick="handleBookingClick('booking.html?id=${pkg.id}', event)" class="btn btn-primary btn-sm">Book</a>
             </div>
           </div>
         </div>
@@ -1205,13 +1209,6 @@ async function togglePackageLike(pkgId, event) {
 
 // --- PACKAGE DETAILS PAGE LOGIC ---
 function setupPackageDetailsPage() {
-  const userJson = localStorage.getItem("tripEaseUser");
-  if (!userJson) {
-    const returnUrl = "package-details.html" + window.location.search;
-    window.location.href = `login.html?redirect=${encodeURIComponent(returnUrl)}`;
-    return;
-  }
-
   const params = new URLSearchParams(window.location.search);
   const pkgId = params.get("id") || "pkg-1";
   const allPackages = getPackages();
