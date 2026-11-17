@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tour Package Details - TripEase</title>
+  <meta name="description" content="Detailed travel itinerary, inclusions, exclusions, accommodations and live price calculator.">
+  
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✈️</text></svg>">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <div class="container">
+      <div class="topbar-info">
+        <span><i class="fa-solid fa-phone text-orange"></i> 24/7 Helpline: <strong>1800-209-8747</strong></span>
+        <span><i class="fa-solid fa-envelope text-sky"></i> support@tripease.com</span>
+        <span><i class="fa-solid fa-shield-halved text-success"></i> 100% Verified Stays & ATOL Protected</span>
+      </div>
+      <div class="topbar-actions">
+        <span><i class="fa-solid fa-indian-rupee-sign text-orange"></i> INR (₹)</span>
+        <a href="admin.html"><i class="fa-solid fa-lock text-sky"></i> Admin Portal</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- NAVIGATION BAR -->
+  <nav class="navbar">
+    <div class="container nav-container">
+      <a href="index.html" class="logo">
+        <div class="logo-icon"><i class="fa-solid fa-plane-departure"></i></div>
+        Trip<span>Ease</span>
+      </a>
+
+      <ul class="nav-menu" id="navMenu">
+        <li><a href="index.html" class="nav-link">Home</a></li>
+        <li><a href="destinations.html" class="nav-link">Destinations</a></li>
+        <li><a href="packages.html" class="nav-link active">Tour Packages</a></li>
+        <li><a href="my-trips.html" class="nav-link">My Trips</a></li>
+        <li><a href="admin.html" class="nav-link">Admin UI</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <a href="packages.html" class="nav-wishlist-btn" title="Saved Wishlist">
+          <i class="fa-regular fa-heart"></i>
+          <span class="nav-badge-count" id="navWishlistCount">0</span>
+        </a>
+        <div id="navUserSection" style="display: flex; align-items: center; gap: 0.75rem;"></div>
+        <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle navigation">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- DETAILS HEADER CONTAINER -->
+  <section class="section" style="padding-top: 2rem; padding-bottom: 5rem;">
+    <div class="container">
+      
+      <!-- Breadcrumbs -->
+      <div class="breadcrumbs" style="justify-content: flex-start; margin-bottom: 1.25rem;">
+        <a href="index.html">Home</a>
+        <i class="fa-solid fa-chevron-right" style="font-size: 0.7rem;"></i>
+        <a href="packages.html">Tour Packages</a>
+        <i class="fa-solid fa-chevron-right" style="font-size: 0.7rem;"></i>
+        <span class="current" id="detailsBreadcrumbTitle">Package Overview</span>
+      </div>
+
+      <!-- Title & Location Strip -->
+      <div class="details-meta-header" style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem;">
+        <div>
+          <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem;">
+            <span class="badge badge-orange" id="detailsBadge">Bestseller</span>
+            <span class="text-sky" style="font-weight: 700; font-size: 0.9rem;" id="detailsDestination">
+              <i class="fa-solid fa-location-dot"></i> Kashmir, India
+            </span>
+          </div>
+          <h1 id="detailsTitle" style="font-size: 2.25rem; color: #0f2444; margin-bottom: 0.5rem;">
+            Mesmerizing Kashmir & Dal Lake Paradise
+          </h1>
+          <div style="display: flex; align-items: center; gap: 1.5rem; font-size: 0.9rem; color: #64748b; flex-wrap: wrap;">
+            <span><i class="fa-solid fa-star text-warning"></i> <strong id="detailsRating" style="color: #0f172a;">4.9</strong> <span id="detailsReviewsCount">(148 reviews)</span></span>
+            <span><i class="fa-regular fa-clock text-sky"></i> <strong id="detailsDuration" style="color: #0f172a;">5 Nights / 6 Days</strong></span>
+            <span><i class="fa-solid fa-bolt text-success"></i> Instant Confirmation</span>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 0.75rem;">
+          <button class="btn btn-outline-navy btn-sm" onclick="showToast('Link copied to clipboard!', 'info')">
+            <i class="fa-solid fa-share-nodes"></i> Share
+          </button>
+          <button class="btn btn-outline-orange btn-sm" onclick="toggleWishlist('pkg-1', event)">
+            <i class="fa-regular fa-heart"></i> Save Tour
+          </button>
+        </div>
+      </div>
+
+      <!-- PHOTO GALLERY GRID -->
+      <div class="package-gallery-grid" id="detailsGallery">
+        <!-- Injected by js/script.js -->
+      </div>
+
+      <!-- QUICK TOUR SPECS -->
+      <div class="details-quick-specs">
+        <div class="spec-item">
+          <div class="spec-icon"><i class="fa-regular fa-clock"></i></div>
+          <div class="spec-info">
+            <span>Duration</span>
+            <strong>5 Nights / 6 Days</strong>
+          </div>
+        </div>
+        <div class="spec-item">
+          <div class="spec-icon"><i class="fa-solid fa-car-side"></i></div>
+          <div class="spec-info">
+            <span>Tour Type</span>
+            <strong>Private AC Chauffeur</strong>
+          </div>
+        </div>
+        <div class="spec-item">
+          <div class="spec-icon"><i class="fa-solid fa-hotel"></i></div>
+          <div class="spec-info">
+            <span>Accommodations</span>
+            <strong>4★ & Deluxe Stays</strong>
+          </div>
+        </div>
+        <div class="spec-item">
+          <div class="spec-icon"><i class="fa-solid fa-utensils"></i></div>
+          <div class="spec-info">
+            <span>Meals Plan</span>
+            <strong>Breakfast & Dinners</strong>
+          </div>
+        </div>
+      </div>
+
+      <!-- MAIN CONTENT & STICKY BOOKING SIDEBAR -->
+      <div class="details-layout">
+        
+        <!-- LEFT COLUMN: TOUR TABS & DETAILS -->
+        <div>
+          <!-- Tab Navigation -->
+          <div class="details-tabs">
+            <button class="tab-nav-btn active" onclick="switchDetailTab('overview', this)">Overview</button>
+            <button class="tab-nav-btn" onclick="switchDetailTab('itinerary', this)">Day-by-Day Itinerary</button>
+            <button class="tab-nav-btn" onclick="switchDetailTab('inclusions', this)">Inclusions</button>
+            <button class="tab-nav-btn" onclick="switchDetailTab('stays', this)">Stays & Hotels</button>
+            <button class="tab-nav-btn" onclick="switchDetailTab('reviews', this)">Reviews (148)</button>
+          </div>
+
+          <!-- TAB 1: OVERVIEW -->
+          <div id="tab-overview" class="detail-tab-pane">
+            <div class="details-content-box" style="margin-bottom: 2rem;">
+              <h3 style="font-size: 1.35rem; margin-bottom: 1rem; color: #0f2444;">Tour Description</h3>
+              <p id="detailsOverview" style="font-size: 1rem; color: #475569; line-height: 1.8; margin-bottom: 2rem;">
+                Experience the timeless enchantment of Kashmir, celebrated as paradise on earth.
+              </p>
+
+              <h4 style="font-size: 1.15rem; margin-bottom: 1.25rem; color: #0f2444;">Key Tour Highlights</h4>
+              <ul id="detailsHighlights" style="list-style: none;">
+                <!-- Injected by js/script.js -->
+              </ul>
+            </div>
+          </div>
+
+          <!-- TAB 2: ITINERARY -->
+          <div id="tab-itinerary" class="detail-tab-pane" style="display: none;">
+            <div class="details-content-box" style="margin-bottom: 2rem;">
+              <div class="flex-between" style="margin-bottom: 1.5rem;">
+                <div>
+                  <h3 style="font-size: 1.35rem; color: #0f2444;">Detailed Day-by-Day Itinerary</h3>
+                  <span style="font-size: 0.88rem; color: #64748b;">Click any day to expand or collapse activity details</span>
+                </div>
+              </div>
+
+              <!-- Day-by-Day Timeline (Injected by js/script.js) -->
+              <div class="itinerary-timeline" id="detailsItinerary"></div>
+            </div>
+          </div>
+
+          <!-- TAB 3: INCLUSIONS & EXCLUSIONS -->
+          <div id="tab-inclusions" class="detail-tab-pane" style="display: none;">
+            <div class="details-content-box" style="margin-bottom: 2rem;">
+              <h3 style="font-size: 1.35rem; margin-bottom: 1.5rem; color: #0f2444;">What's Inside Your Package</h3>
+              
+              <div class="inc-exc-grid">
+                <div class="inc-box">
+                  <h4><i class="fa-solid fa-circle-check"></i> Inclusions</h4>
+                  <ul class="inc-list" id="detailsInclusions">
+                    <!-- Injected by js/script.js -->
+                  </ul>
+                </div>
+
+                <div class="exc-box">
+                  <h4><i class="fa-solid fa-circle-xmark"></i> Exclusions</h4>
+                  <ul class="exc-list" id="detailsExclusions">
+                    <!-- Injected by js/script.js -->
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB 4: STAYS -->
+          <div id="tab-stays" class="detail-tab-pane" style="display: none;">
+            <div class="details-content-box" style="margin-bottom: 2rem;">
+              <h3 style="font-size: 1.35rem; margin-bottom: 1.5rem; color: #0f2444;">Handpicked Luxury & Heritage Accommodations</h3>
+              <p style="color: #64748b; font-size: 0.95rem; margin-bottom: 1.5rem;">
+                We partner exclusively with verified properties boasting a minimum 4.5★ guest score, sanitized rooms, scenic balconies, and exceptional cuisine.
+              </p>
+              <div id="detailsStays">
+                <!-- Injected by js/script.js -->
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB 5: REVIEWS -->
+          <div id="tab-reviews" class="detail-tab-pane" style="display: none;">
+            <div class="details-content-box" style="margin-bottom: 2rem;">
+              <div class="flex-between" style="margin-bottom: 2rem; border-bottom: 1px solid #e2e8f0; padding-bottom: 1.5rem;">
+                <div>
+                  <h3 style="font-size: 1.35rem; color: #0f2444; margin-bottom: 0.25rem;">Traveler Ratings & Feedback</h3>
+                  <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <div style="color: #f59e0b;"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                    <strong style="font-size: 1.1rem; color: #0f172a;">4.9 / 5.0</strong>
+                    <span style="color: #64748b; font-size: 0.88rem;">(Based on 148 verified trips)</span>
+                  </div>
+                </div>
+                <button class="btn btn-outline-navy btn-sm" onclick="showToast('Thank you! Review form opened below.', 'info')">
+                  Write a Review
+                </button>
+              </div>
+
+              <!-- Customer Feedback List -->
+              <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                <div style="padding-bottom: 1.5rem; border-bottom: 1px solid #f1f5f9;">
+                  <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                    <strong>Manish & Swati Kulkarni</strong>
+                    <span style="font-size: 0.82rem; color: #94a3b8;">October 2026</span>
+                  </div>
+                  <div style="color: #f59e0b; font-size: 0.85rem; margin-bottom: 0.5rem;"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                  <p style="font-size: 0.92rem; color: #475569; line-height: 1.6;">
+                    The trip was seamless right from our pickup at Srinagar airport. The Shikara ride on Dal Lake in the evening was utterly peaceful, and our stay at Kolahoi Green in Pahalgam had mountain views right from our bed. Truly world-class service!
+                  </p>
+                </div>
+
+                <div>
+                  <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                    <strong>Dr. Ritu Chawla</strong>
+                    <span style="font-size: 0.82rem; color: #94a3b8;">September 2026</span>
+                  </div>
+                  <div style="color: #f59e0b; font-size: 0.85rem; margin-bottom: 0.5rem;"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                  <p style="font-size: 0.92rem; color: #475569; line-height: 1.6;">
+                    The driver, Tariq bhai, was very polite and knowledgeable about local Kashmiri history. Gondola Phase 1 was breathtaking. I will definitely book my next vacation through TripEase again.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT COLUMN: STICKY BOOKING CALCULATOR WIDGET -->
+        <aside>
+          <div class="sticky-booking-card">
+            <div class="booking-card-header">
+              <div>
+                <span style="font-size: 0.8rem; color: #64748b; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px;">Starting Price</span>
+                <div style="display: flex; align-items: baseline; gap: 0.6rem;">
+                  <span class="price-old" id="stickyOldPrice">₹34,999</span>
+                  <span class="price-current" id="stickyPrice">₹24,999</span>
+                </div>
+                <span class="price-unit">per person (twin sharing)</span>
+              </div>
+              <span class="badge badge-success"><i class="fa-solid fa-tag"></i> 28% OFF</span>
+            </div>
+
+            <!-- Booking Inputs -->
+            <div style="display: flex; flex-direction: column; gap: 1rem;">
+              <div>
+                <label for="calcDate" class="form-label"><i class="fa-regular fa-calendar-days text-sky"></i> Departure Date</label>
+                <input type="date" id="calcDate" class="form-control" value="2026-11-28">
+              </div>
+
+              <div>
+                <label for="calcGuests" class="form-label"><i class="fa-solid fa-users text-orange"></i> Number of Travelers</label>
+                <input type="number" id="calcGuests" min="1" max="15" value="2" class="form-control">
+              </div>
+
+              <div>
+                <label for="calcRoomType" class="form-label"><i class="fa-solid fa-bed text-navy"></i> Room Category</label>
+                <select id="calcRoomType" class="form-control">
+                  <option value="standard">Standard Deluxe Room</option>
+                  <option value="deluxe">Executive Mountain View (+15%)</option>
+                  <option value="luxury">Presidential Luxury Suite (+35%)</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Price Breakdown Calculation -->
+            <div class="calc-price-breakdown">
+              <div class="calc-row">
+                <span>Base Package Cost:</span>
+                <strong id="calcBaseTotal">₹49,998</strong>
+              </div>
+              <div class="calc-row">
+                <span>Taxes & GST (5%):</span>
+                <strong id="calcGst">₹2,500</strong>
+              </div>
+              <div class="calc-row calc-total">
+                <span>Estimated Total:</span>
+                <span id="calcGrandTotal" class="text-orange" style="font-size: 1.25rem;">₹52,498</span>
+              </div>
+            </div>
+
+            <!-- CTA Buttons -->
+            <button id="proceedToBookBtn" class="btn btn-primary" style="width: 100%; margin-bottom: 0.75rem;">
+              <i class="fa-solid fa-bolt"></i> Proceed to Book
+            </button>
+            <button class="btn btn-outline-navy btn-sm" style="width: 100%;" onclick="openModal('inquiryModal')">
+              <i class="fa-solid fa-comments"></i> Request Custom Itinerary
+            </button>
+
+            <!-- Trust Badges -->
+            <div style="margin-top: 1.5rem; padding-top: 1.25rem; border-top: 1px dashed #e2e8f0; display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.8rem; color: #64748b;">
+              <div><i class="fa-solid fa-check text-success"></i> Free cancellation up to 7 days before trip</div>
+              <div><i class="fa-solid fa-check text-success"></i> Pay 20% advance & reserve your dates</div>
+              <div><i class="fa-solid fa-check text-success"></i> 24/7 Dedicated trip concierge hotline</div>
+            </div>
+          </div>
+        </aside>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- PHOTO LIGHTBOX MODAL -->
+  <div class="modal-backdrop" id="photoLightboxModal">
+    <div class="modal-box" style="max-width: 800px; padding: 0; background: transparent; box-shadow: none; border: none;">
+      <div style="position: relative;">
+        <button class="modal-close-btn" onclick="closeModal('photoLightboxModal')" style="position: absolute; right: 10px; top: 10px; background: rgba(0,0,0,0.6); color: #fff;">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+        <img id="photoLightboxImg" src="" alt="Enlarged Photo" style="width: 100%; max-height: 80vh; object-fit: contain; border-radius: 12px;">
+      </div>
+    </div>
+  </div>
+
+  <!-- CUSTOM INQUIRY MODAL -->
+  <div class="modal-backdrop" id="inquiryModal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 style="font-size: 1.25rem; color: #0f2444;"><i class="fa-solid fa-pen-to-square text-orange"></i> Customize This Tour</h3>
+        <button class="modal-close-btn" onclick="closeModal('inquiryModal')"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size: 0.92rem; color: #64748b; margin-bottom: 1.5rem;">
+          Want to add extra days, special candlelight dinners, or travel with a larger group? Our certified holiday experts will design a customized proposal for you within 2 hours.
+        </p>
+        <form onsubmit="event.preventDefault(); showToast('Inquiry received! Our trip specialist will contact you shortly.', 'success'); closeModal('inquiryModal');">
+          <div class="form-group">
+            <label class="form-label">Full Name</label>
+            <input type="text" class="form-control" placeholder="Your Name" required>
+          </div>
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label class="form-label">Mobile Number</label>
+              <input type="tel" class="form-control" placeholder="+91 98765 43210" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Email Address</label>
+              <input type="email" class="form-control" placeholder="you@example.com" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Special Requests / Custom Requirements</label>
+            <textarea class="form-control" rows="3" placeholder="Tell us if you want honeymoon floral decoration, specific hotel chains, or extra sightseeing spots..."></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary" style="width: 100%;">Submit Custom Request</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container footer-grid">
+      <div>
+        <a href="index.html" class="logo footer-logo">
+          <div class="logo-icon"><i class="fa-solid fa-plane-departure"></i></div>
+          <span style="color:#fff;">Trip</span><span class="text-orange">Ease</span>
+        </a>
+        <p class="footer-about">
+          TripEase is India's premier holiday booking platform offering curated vacations, customizable packages, and transparent pricing in Indian Rupees.
+        </p>
+      </div>
+
+      <div>
+        <h4 class="footer-heading">Quick Links</h4>
+        <ul class="footer-links">
+          <li><a href="index.html"><i class="fa-solid fa-chevron-right"></i> Home</a></li>
+          <li><a href="destinations.html"><i class="fa-solid fa-chevron-right"></i> Destinations</a></li>
+          <li><a href="packages.html"><i class="fa-solid fa-chevron-right"></i> Tour Packages</a></li>
+          <li><a href="my-trips.html"><i class="fa-solid fa-chevron-right"></i> My Bookings</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="footer-heading">Need Support?</h4>
+        <div class="footer-contact-list">
+          <div class="contact-item">
+            <i class="fa-solid fa-phone"></i>
+            <span>Toll Free: 1800-209-8747</span>
+          </div>
+          <div class="contact-item">
+            <i class="fa-solid fa-envelope"></i>
+            <span>support@tripease.com</span>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <h4 class="footer-heading">Travel Safe</h4>
+        <p style="font-size: 0.9rem; color: #94a3b8; line-height: 1.6;">
+          All packages include verified sanitized private cabs and 24/7 dedicated local emergency hotline assistance.
+        </p>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="container">
+        <div>&copy; 2026 TripEase Travel Technologies Pvt. Ltd. All rights reserved.</div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/script.js"></script>
+  <script>
+    function switchDetailTab(tabName, btn) {
+      document.querySelectorAll('.tab-nav-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.detail-tab-pane').forEach(p => p.style.display = 'none');
+      btn.classList.add('active');
+      const target = document.getElementById(`tab-${tabName}`);
+      if (target) target.style.display = 'block';
+    }
+  </script>
+</body>
+</html>

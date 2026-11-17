@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TripEase - Premium Travel Booking & Tour Packages</title>
+  <meta name="description" content="Discover handpicked holiday packages, exotic destinations, and luxury escapes across India and the world with TripEase.">
+  
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✈️</text></svg>">
+  
+  <!-- Font Awesome 6 Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <div class="container">
+      <div class="topbar-info">
+        <span><i class="fa-solid fa-phone text-orange"></i> 24/7 Helpline: <strong>1800-209-8747</strong></span>
+        <span><i class="fa-solid fa-envelope text-sky"></i> support@tripease.com</span>
+        <span><i class="fa-solid fa-shield-halved text-success"></i> 100% Verified Stays & ATOL Protected</span>
+      </div>
+      <div class="topbar-actions">
+        <span><i class="fa-solid fa-indian-rupee-sign text-orange"></i> INR (₹)</span>
+        <a href="admin.html"><i class="fa-solid fa-lock text-sky"></i> Admin Portal</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- NAVIGATION BAR -->
+  <nav class="navbar">
+    <div class="container nav-container">
+      <!-- Brand Logo -->
+      <a href="index.html" class="logo">
+        <div class="logo-icon"><i class="fa-solid fa-plane-departure"></i></div>
+        Trip<span>Ease</span>
+      </a>
+
+      <!-- Desktop Navigation Menu -->
+      <ul class="nav-menu" id="navMenu">
+        <li><a href="index.html" class="nav-link active">Home</a></li>
+        <li><a href="destinations.html" class="nav-link">Destinations</a></li>
+        <li><a href="packages.html" class="nav-link">Tour Packages</a></li>
+        <li><a href="my-trips.html" class="nav-link">My Trips</a></li>
+        <li><a href="admin.html" class="nav-link">Admin UI</a></li>
+      </ul>
+
+      <!-- User & Wishlist Actions -->
+      <div class="nav-actions">
+        <a href="packages.html" class="nav-wishlist-btn" title="Saved Wishlist">
+          <i class="fa-regular fa-heart"></i>
+          <span class="nav-badge-count" id="navWishlistCount">0</span>
+        </a>
+
+        <!-- Dynamic User Section (Login/Register or User Avatar) -->
+        <div id="navUserSection" style="display: flex; align-items: center; gap: 0.75rem;">
+          <!-- Injected by js/script.js -->
+        </div>
+
+        <!-- Mobile Menu Toggle -->
+        <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle navigation">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO SECTION -->
+  <header class="hero">
+    <div class="container hero-content">
+      <div class="hero-tag">
+        <i class="fa-solid fa-star text-orange"></i> Curated Luxury Holidays & Indian Escapes
+      </div>
+      <h1 class="hero-title">
+        Wander More, <span>Worry Less</span>
+      </h1>
+      <p class="hero-desc">
+        Embark on extraordinary vacations. From the snow peaks of Kashmir to the golden backwaters of Kerala and vibrant shores of Bali, explore handpicked holidays crafted for lifelong memories.
+      </p>
+      <div style="display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;">
+        <a href="packages.html" class="btn btn-primary btn-lg">
+          <i class="fa-solid fa-compass"></i> Explore Packages
+        </a>
+        <a href="destinations.html" class="btn btn-outline-white btn-lg">
+          <i class="fa-solid fa-map-location-dot"></i> View Destinations
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- FLOATING SEARCH BAR -->
+  <div class="container hero-search-wrapper">
+    <div class="search-box-card">
+      <div class="search-tabs">
+        <button class="search-tab-btn active"><i class="fa-solid fa-globe"></i> Holiday Tours</button>
+        <button class="search-tab-btn" onclick="window.location.href='packages.html?category=Honeymoon'"><i class="fa-solid fa-heart text-orange"></i> Honeymoon Specials</button>
+        <button class="search-tab-btn" onclick="window.location.href='packages.html?category=Adventure'"><i class="fa-solid fa-person-hiking text-sky"></i> Adventure Escapes</button>
+        <button class="search-tab-btn" onclick="window.location.href='packages.html?category=International'"><i class="fa-solid fa-plane-up"></i> International</button>
+      </div>
+
+      <form action="packages.html" method="GET" class="search-form-grid" onsubmit="event.preventDefault(); window.location.href='packages.html?destination=' + encodeURIComponent(document.getElementById('homeSearchDest').value);">
+        <!-- Destination -->
+        <div class="search-field">
+          <i class="fa-solid fa-location-dot search-field-icon"></i>
+          <div class="search-field-text">
+            <label for="homeSearchDest">Destination</label>
+            <input type="text" id="homeSearchDest" placeholder="Where to? (e.g. Kashmir, Goa, Bali)">
+          </div>
+        </div>
+
+        <!-- Trip Type -->
+        <div class="search-field">
+          <i class="fa-solid fa-tag search-field-icon"></i>
+          <div class="search-field-text">
+            <label for="homeSearchCategory">Holiday Type</label>
+            <select id="homeSearchCategory">
+              <option value="">All Categories</option>
+              <option value="Honeymoon">Honeymoon</option>
+              <option value="Family">Family Holiday</option>
+              <option value="Adventure">Adventure & Trek</option>
+              <option value="Beaches">Beach Vacations</option>
+              <option value="Heritage">Royal Heritage</option>
+              <option value="Luxury">Luxury Retreats</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Travel Month -->
+        <div class="search-field">
+          <i class="fa-regular fa-calendar-days search-field-icon"></i>
+          <div class="search-field-text">
+            <label for="homeSearchMonth">Travel Month</label>
+            <select id="homeSearchMonth">
+              <option value="">Any Time</option>
+              <option value="nov">November 2026</option>
+              <option value="dec">December 2026 (New Year)</option>
+              <option value="jan">January 2027</option>
+              <option value="feb">February 2027</option>
+              <option value="summer">Summer 2027</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Travelers Count -->
+        <div class="search-field">
+          <i class="fa-solid fa-users search-field-icon"></i>
+          <div class="search-field-text">
+            <label for="homeSearchGuests">Guests</label>
+            <select id="homeSearchGuests">
+              <option value="2">2 Adults (Couple)</option>
+              <option value="1">1 Adult (Solo)</option>
+              <option value="4">4 Guests (Family)</option>
+              <option value="6">6+ (Group Tour)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="btn btn-primary" style="height: 54px; padding: 0 1.75rem;">
+          <i class="fa-solid fa-magnifying-glass"></i> Search Trips
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- STATS STRIP -->
+  <section class="stats-strip" style="margin-top: 4rem;">
+    <div class="container">
+      <div class="stats-grid">
+        <div class="stat-item">
+          <div class="stat-icon"><i class="fa-solid fa-earth-americas"></i></div>
+          <div class="stat-number">120+</div>
+          <div class="stat-label">Destinations Worldwide</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-icon"><i class="fa-solid fa-face-smile"></i></div>
+          <div class="stat-number">150K+</div>
+          <div class="stat-label">Happy Travelers</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-icon"><i class="fa-solid fa-star"></i></div>
+          <div class="stat-number">4.9 / 5</div>
+          <div class="stat-label">Average Customer Rating</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-icon"><i class="fa-solid fa-headset"></i></div>
+          <div class="stat-number">24 / 7</div>
+          <div class="stat-label">On-Trip Expert Support</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- POPULAR CATEGORIES -->
+  <section class="section" style="padding-bottom: 2rem;">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-subtitle">Browse by Style</span>
+        <h2 class="section-title">Popular Travel Themes</h2>
+        <p class="section-desc">Pick an experience tailored to your holiday aspirations, whether it's romantic seclusion, thrill-seeking trails, or cultural journeys.</p>
+      </div>
+
+      <div class="category-filter-bar flex-center" style="justify-content: center; flex-wrap: wrap;">
+        <a href="packages.html?category=Honeymoon" class="category-chip"><i class="fa-solid fa-heart text-orange"></i> Honeymoon & Romance</a>
+        <a href="packages.html?category=Beaches" class="category-chip"><i class="fa-solid fa-umbrella-beach text-sky"></i> Coastal & Islands</a>
+        <a href="packages.html?category=Adventure" class="category-chip"><i class="fa-solid fa-mountain text-navy"></i> Mountain Escapes</a>
+        <a href="packages.html?category=Family" class="category-chip"><i class="fa-solid fa-users text-orange"></i> Family Friendly</a>
+        <a href="packages.html?category=Heritage" class="category-chip"><i class="fa-solid fa-landmark text-sky"></i> Royal Heritage</a>
+        <a href="packages.html?category=Luxury" class="category-chip"><i class="fa-solid fa-gem text-orange"></i> Luxury Retreats</a>
+        <a href="packages.html?category=International" class="category-chip"><i class="fa-solid fa-plane text-navy"></i> Global Tours</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURED DESTINATIONS -->
+  <section class="section" style="padding-top: 1rem;">
+    <div class="container">
+      <div class="flex-between" style="margin-bottom: 2.5rem; flex-wrap: wrap; gap: 1rem;">
+        <div>
+          <span class="section-subtitle">Trending Locations</span>
+          <h2 class="section-title" style="margin-bottom: 0;">Top Destinations to Visit</h2>
+        </div>
+        <a href="destinations.html" class="btn btn-outline-navy">
+          View All 120+ Places <i class="fa-solid fa-arrow-right"></i>
+        </a>
+      </div>
+
+      <!-- Injected by js/script.js -->
+      <div class="destinations-grid" id="homeDestinationsGrid"></div>
+    </div>
+  </section>
+
+  <!-- HANDPICKED PACKAGES -->
+  <section class="section bg-subtle">
+    <div class="container">
+      <div class="flex-between" style="margin-bottom: 2.5rem; flex-wrap: wrap; gap: 1rem;">
+        <div>
+          <span class="section-subtitle">Recommended Packages</span>
+          <h2 class="section-title" style="margin-bottom: 0;">Bestselling Tour Packages</h2>
+        </div>
+        <a href="packages.html" class="btn btn-primary">
+          View All Packages <i class="fa-solid fa-arrow-right"></i>
+        </a>
+      </div>
+
+      <!-- Injected by js/script.js -->
+      <div class="packages-grid" id="homePackagesGrid"></div>
+    </div>
+  </section>
+
+  <!-- PROMOTIONAL OFFER BANNER -->
+  <section class="section">
+    <div class="container">
+      <div class="promo-banner">
+        <div class="promo-content">
+          <span class="promo-badge"><i class="fa-solid fa-fire"></i> Limited Winter Offer</span>
+          <h2 class="promo-title">Flat ₹2,000 OFF on Your First Booking</h2>
+          <p class="promo-desc">Book your dream holiday to Kashmir, Kerala, Goa or Ladakh today and enjoy instant savings plus complimentary airport lounge access.</p>
+          <div style="display: flex; align-items: center; flex-wrap: wrap; gap: 1rem;">
+            <div class="coupon-pill">
+              <i class="fa-solid fa-scissors"></i> CODE: TRIPEASE2024
+            </div>
+            <a href="packages.html" class="btn btn-primary btn-lg">
+              Claim Discount Now <i class="fa-solid fa-arrow-right"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY CHOOSE TRIPEASE -->
+  <section class="section bg-white">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-subtitle">The TripEase Edge</span>
+        <h2 class="section-title">Why 150,000+ Travelers Trust Us</h2>
+        <p class="section-desc">We combine premium quality with guaranteed transparent pricing so that you travel with complete peace of mind.</p>
+      </div>
+
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon-box">
+            <i class="fa-solid fa-tags"></i>
+          </div>
+          <h3 class="feature-title">Best Price Guarantee</h3>
+          <p class="feature-desc">Direct contracts with top resort brands and local transporters ensure you receive the most competitive prices in Indian Rupees without hidden charges.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon-box">
+            <i class="fa-solid fa-shield-heart"></i>
+          </div>
+          <h3 class="feature-title">100% Verified Stays</h3>
+          <p class="feature-desc">Every boutique hotel, resort, and deluxe houseboat is personally audited for cleanliness, hygiene, amenities, and hospitality standards.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon-box">
+            <i class="fa-solid fa-sliders"></i>
+          </div>
+          <h3 class="feature-title">Customizable Itineraries</h3>
+          <p class="feature-desc">Tailor every day of your itinerary. Add extra days, upgrade room categories, or request romantic candlelight surprises with one click.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon-box">
+            <i class="fa-solid fa-headset"></i>
+          </div>
+          <h3 class="feature-title">24/7 Trip Concierge</h3>
+          <p class="feature-desc">A dedicated on-trip manager is available round-the-clock via phone and WhatsApp to assist you from departure till you arrive safely back home.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="section bg-subtle">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-subtitle">Traveler Stories</span>
+        <h2 class="section-title">Loved by Travelers Across the Nation</h2>
+        <p class="section-desc">Read real reviews from vacationers who explored their dream destinations with TripEase.</p>
+      </div>
+
+      <div class="testimonials-grid">
+        <!-- Review 1 -->
+        <div class="testimonial-card">
+          <i class="fa-solid fa-quote-right quote-icon"></i>
+          <div>
+            <div style="color: #f59e0b; margin-bottom: 0.75rem;">
+              <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+            </div>
+            <p class="testimonial-text">
+              "Our honeymoon in Kashmir was sheer magic! The luxury houseboat on Dal Lake was pristine, and the private Shikara ride during sunset was unforgettable. TripEase handled every transfer seamlessly."
+            </p>
+          </div>
+          <div class="testimonial-author">
+            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80" alt="Ananya Gupta" class="author-avatar">
+            <div class="author-info">
+              <h4>Ananya & Rohan Gupta</h4>
+              <span>Traveled to Kashmir (5N/6D)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Review 2 -->
+        <div class="testimonial-card">
+          <i class="fa-solid fa-quote-right quote-icon"></i>
+          <div>
+            <div style="color: #f59e0b; margin-bottom: 0.75rem;">
+              <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+            </div>
+            <p class="testimonial-text">
+              "TripEase made our Kerala family trip so relaxing. The kids thoroughly enjoyed the Alleppey backwaters and tea garden walks in Munnar. Food was authentic and the chauffeur was exceptionally courteous."
+            </p>
+          </div>
+          <div class="testimonial-author">
+            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&q=80" alt="Siddharth Mehta" class="author-avatar">
+            <div class="author-info">
+              <h4>Siddharth Mehta</h4>
+              <span>Traveled to Kerala (4N/5D)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Review 3 -->
+        <div class="testimonial-card">
+          <i class="fa-solid fa-quote-right quote-icon"></i>
+          <div>
+            <div style="color: #f59e0b; margin-bottom: 0.75rem;">
+              <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+            </div>
+            <p class="testimonial-text">
+              "Ladakh had been on my bucket list for years. Cross-country travel with oxygen backups and stays right at Pangong Lake camp exceeded all expectations. Exceptional professionalism!"
+            </p>
+          </div>
+          <div class="testimonial-author">
+            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=150&q=80" alt="Vikramaditya Rao" class="author-avatar">
+            <div class="author-info">
+              <h4>Vikramaditya Rao</h4>
+              <span>Traveled to Ladakh (6N/7D)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container footer-grid">
+      <!-- Col 1: About -->
+      <div>
+        <a href="index.html" class="logo footer-logo">
+          <div class="logo-icon"><i class="fa-solid fa-plane-departure"></i></div>
+          <span style="color:#fff;">Trip</span><span class="text-orange">Ease</span>
+        </a>
+        <p class="footer-about">
+          TripEase is India's premier holiday booking platform offering curated vacations, customizable packages, and transparent pricing in Indian Rupees. Travel smarter, easier, and better.
+        </p>
+        <div class="footer-socials">
+          <a href="#" class="social-btn" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+          <a href="#" class="social-btn" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#" class="social-btn" aria-label="Twitter"><i class="fa-brands fa-x-twitter"></i></a>
+          <a href="#" class="social-btn" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+        </div>
+      </div>
+
+      <!-- Col 2: Quick Links -->
+      <div>
+        <h4 class="footer-heading">Quick Links</h4>
+        <ul class="footer-links">
+          <li><a href="index.html"><i class="fa-solid fa-chevron-right"></i> Home</a></li>
+          <li><a href="destinations.html"><i class="fa-solid fa-chevron-right"></i> Top Destinations</a></li>
+          <li><a href="packages.html"><i class="fa-solid fa-chevron-right"></i> Holiday Packages</a></li>
+          <li><a href="my-trips.html"><i class="fa-solid fa-chevron-right"></i> Manage My Bookings</a></li>
+          <li><a href="login.html"><i class="fa-solid fa-chevron-right"></i> Customer Login</a></li>
+          <li><a href="admin.html"><i class="fa-solid fa-chevron-right"></i> Admin Dashboard</a></li>
+        </ul>
+      </div>
+
+      <!-- Col 3: Popular Places -->
+      <div>
+        <h4 class="footer-heading">Top Destinations</h4>
+        <ul class="footer-links">
+          <li><a href="packages.html?destination=Kashmir"><i class="fa-solid fa-chevron-right"></i> Kashmir Holidays</a></li>
+          <li><a href="packages.html?destination=Kerala"><i class="fa-solid fa-chevron-right"></i> Kerala Backwaters</a></li>
+          <li><a href="packages.html?destination=Goa"><i class="fa-solid fa-chevron-right"></i> Goa Beach Resorts</a></li>
+          <li><a href="packages.html?destination=Ladakh"><i class="fa-solid fa-chevron-right"></i> Ladakh Expeditions</a></li>
+          <li><a href="packages.html?destination=Bali"><i class="fa-solid fa-chevron-right"></i> Bali Private Villas</a></li>
+          <li><a href="packages.html?destination=Dubai"><i class="fa-solid fa-chevron-right"></i> Dubai Desert Safaris</a></li>
+        </ul>
+      </div>
+
+      <!-- Col 4: Newsletter & Contact -->
+      <div>
+        <h4 class="footer-heading">Stay Connected</h4>
+        <div class="footer-contact-list" style="margin-bottom: 1.5rem;">
+          <div class="contact-item">
+            <i class="fa-solid fa-location-dot"></i>
+            <span>Level 5, Horizon Cyber Hub, Gurugram, Delhi-NCR 122002</span>
+          </div>
+          <div class="contact-item">
+            <i class="fa-solid fa-phone"></i>
+            <span>Toll-Free: 1800-209-8747 (24/7 Support)</span>
+          </div>
+          <div class="contact-item">
+            <i class="fa-solid fa-envelope"></i>
+            <span>bookings@tripease.com</span>
+          </div>
+        </div>
+
+        <div class="footer-newsletter">
+          <p>Subscribe for secret weekend discounts & promo codes:</p>
+          <form class="newsletter-form">
+            <input type="email" placeholder="Enter your email" class="newsletter-input" required>
+            <button type="submit" class="btn btn-primary btn-sm">Join</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Bar -->
+    <div class="footer-bottom">
+      <div class="container">
+        <div>&copy; 2026 TripEase Travel Technologies Pvt. Ltd. All rights reserved.</div>
+        <div style="display: flex; gap: 1.5rem;">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Service</a>
+          <a href="#">Cancellation & Refund Policy</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Explore Destinations - TripEase</title>
+  <meta name="description" content="Explore over 120+ breathtaking destinations across India and international retreats with TripEase.">
+  
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✈️</text></svg>">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <div class="container">
+      <div class="topbar-info">
+        <span><i class="fa-solid fa-phone text-orange"></i> 24/7 Helpline: <strong>1800-209-8747</strong></span>
+        <span><i class="fa-solid fa-envelope text-sky"></i> support@tripease.com</span>
+        <span><i class="fa-solid fa-shield-halved text-success"></i> 100% Verified Stays & ATOL Protected</span>
+      </div>
+      <div class="topbar-actions">
+        <span><i class="fa-solid fa-indian-rupee-sign text-orange"></i> INR (₹)</span>
+        <a href="admin.html"><i class="fa-solid fa-lock text-sky"></i> Admin Portal</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- NAVIGATION BAR -->
+  <nav class="navbar">
+    <div class="container nav-container">
+      <a href="index.html" class="logo">
+        <div class="logo-icon"><i class="fa-solid fa-plane-departure"></i></div>
+        Trip<span>Ease</span>
+      </a>
+
+      <ul class="nav-menu" id="navMenu">
+        <li><a href="index.html" class="nav-link">Home</a></li>
+        <li><a href="destinations.html" class="nav-link active">Destinations</a></li>
+        <li><a href="packages.html" class="nav-link">Tour Packages</a></li>
+        <li><a href="my-trips.html" class="nav-link">My Trips</a></li>
+        <li><a href="admin.html" class="nav-link">Admin UI</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <a href="packages.html" class="nav-wishlist-btn" title="Saved Wishlist">
+          <i class="fa-regular fa-heart"></i>
+          <span class="nav-badge-count" id="navWishlistCount">0</span>
+        </a>
+        <div id="navUserSection" style="display: flex; align-items: center; gap: 0.75rem;"></div>
+        <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle navigation">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- PAGE HERO -->
+  <header class="page-hero destinations-hero">
+    <div class="container">
+      <div class="breadcrumbs">
+        <a href="index.html">Home</a>
+        <i class="fa-solid fa-chevron-right" style="font-size: 0.75rem;"></i>
+        <span class="current">Destinations</span>
+      </div>
+      <h1 class="page-hero-title">Discover Extraordinary Destinations</h1>
+      <p class="page-hero-desc">
+        From snow-covered Himalayan heights to tropical palm-fringed coastlines and royal desert forts, find your perfect backdrop for life's sweetest memories.
+      </p>
+
+      <!-- Live Search in Hero -->
+      <div style="max-width: 580px; margin: 2rem auto 0; position: relative;">
+        <input type="text" id="destSearchInput" placeholder="Search by destination name, country or vibe (e.g. Kashmir, Beaches)..." 
+               style="width: 100%; padding: 1rem 1.25rem 1rem 3rem; border-radius: 9999px; border: 2px solid rgba(255,255,255,0.4); background: rgba(255,255,255,0.95); font-size: 1rem; color: #0f172a; box-shadow: 0 10px 25px rgba(0,0,0,0.2);">
+        <i class="fa-solid fa-magnifying-glass" style="position: absolute; left: 1.25rem; top: 50%; transform: translateY(-50%); color: #0ea5e9; font-size: 1.1rem;"></i>
+      </div>
+    </div>
+  </header>
+
+  <!-- DESTINATION FILTERS & GRID -->
+  <section class="section">
+    <div class="container">
+      <!-- Filter Chips -->
+      <div class="category-filter-bar flex-center" style="margin-bottom: 3rem; flex-wrap: wrap;">
+        <button class="category-chip dest-category-pill active" data-region="all">
+          <i class="fa-solid fa-globe"></i> All Destinations
+        </button>
+        <button class="category-chip dest-category-pill" data-region="North India">
+          <i class="fa-solid fa-mountain text-navy"></i> North India (Mountains)
+        </button>
+        <button class="category-chip dest-category-pill" data-region="South India">
+          <i class="fa-solid fa-leaf text-success"></i> South India (Backwaters)
+        </button>
+        <button class="category-chip dest-category-pill" data-region="West India">
+          <i class="fa-solid fa-umbrella-beach text-orange"></i> West India & Beaches
+        </button>
+        <button class="category-chip dest-category-pill" data-region="Islands">
+          <i class="fa-solid fa-water text-sky"></i> Tropical Islands
+        </button>
+        <button class="category-chip dest-category-pill" data-region="International">
+          <i class="fa-solid fa-plane-departure text-sky"></i> International Escapes
+        </button>
+      </div>
+
+      <!-- Destinations Grid Container (Injected by js/script.js) -->
+      <div class="destinations-grid" id="allDestinationsGrid"></div>
+    </div>
+  </section>
+
+  <!-- DESTINATION OF THE MONTH SPOTLIGHT -->
+  <section class="section bg-white" style="border-top: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0;">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-subtitle">Editor's Choice</span>
+        <h2 class="section-title">Spotlight of the Season: Kashmir Valley</h2>
+        <p class="section-desc">Celebrated as Paradise on Earth, winter and spring transform Kashmir into a living postcard of glistening peaks, cedar forests, and cozy houseboat firesides.</p>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 3rem; align-items: center; background: #f8fafc; border-radius: 24px; padding: 3rem; border: 1px solid #e2e8f0; box-shadow: var(--shadow-md);">
+        <div>
+          <span class="badge badge-orange" style="margin-bottom: 1rem;"><i class="fa-solid fa-snowflake"></i> Best Winter Destination</span>
+          <h3 style="font-size: 2rem; margin-bottom: 1rem; color: #0f2444;">Why Visit Kashmir Now?</h3>
+          <p style="color: #475569; margin-bottom: 1.5rem; line-height: 1.8;">
+            Gulmarg’s powdery snow welcomes winter sports enthusiasts from across the globe, while the tranquil waters of Dal Lake offer peaceful Shikara rides against snow-capped peaks. Sip piping hot Kashmiri Kahwa infused with saffron, almonds, and cardamom while staying in a heritage cedar-wood houseboat.
+          </p>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 2rem;">
+            <div style="display: flex; gap: 0.75rem; align-items: center;">
+              <i class="fa-solid fa-cable-car text-sky" style="font-size: 1.4rem;"></i>
+              <div>
+                <strong style="display: block; font-size: 0.95rem; color: #0f172a;">Gulmarg Gondola</strong>
+                <span style="font-size: 0.8rem; color: #64748b;">Highest cable car in Asia</span>
+              </div>
+            </div>
+            <div style="display: flex; gap: 0.75rem; align-items: center;">
+              <i class="fa-solid fa-ship text-orange" style="font-size: 1.4rem;"></i>
+              <div>
+                <strong style="display: block; font-size: 0.95rem; color: #0f172a;">Dal Houseboats</strong>
+                <span style="font-size: 0.8rem; color: #64748b;">Deluxe cedar heritage stays</span>
+              </div>
+            </div>
+            <div style="display: flex; gap: 0.75rem; align-items: center;">
+              <i class="fa-solid fa-temperature-half text-sky" style="font-size: 1.4rem;"></i>
+              <div>
+                <strong style="display: block; font-size: 0.95rem; color: #0f172a;">Weather</strong>
+                <span style="font-size: 0.8rem; color: #64748b;">Crisp 4°C - 14°C</span>
+              </div>
+            </div>
+            <div style="display: flex; gap: 0.75rem; align-items: center;">
+              <i class="fa-solid fa-tags text-success" style="font-size: 1.4rem;"></i>
+              <div>
+                <strong style="display: block; font-size: 0.95rem; color: #0f172a;">Packages From</strong>
+                <span style="font-size: 0.8rem; color: #ff6b35; font-weight: 700;">₹24,999 / person</span>
+              </div>
+            </div>
+          </div>
+
+          <a href="package-details.html?id=pkg-1" class="btn btn-primary btn-lg">
+            <i class="fa-solid fa-calendar-check"></i> View Kashmir Itinerary
+          </a>
+        </div>
+
+        <div style="border-radius: 18px; overflow: hidden; box-shadow: var(--shadow-lg); height: 100%; min-height: 380px;">
+          <img src="https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&w=900&q=80" alt="Kashmir Dal Lake" style="width: 100%; height: 100%; object-fit: cover;">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRAVEL SEASONS GUIDE -->
+  <section class="section bg-subtle">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-subtitle">Travel Advisory</span>
+        <h2 class="section-title">When to Travel: Season Guide</h2>
+        <p class="section-desc">Plan your calendar around the finest weather windows across India and top international spots.</p>
+      </div>
+
+      <div class="features-grid">
+        <div class="feature-card" style="text-align: left;">
+          <span class="badge badge-sky" style="margin-bottom: 0.75rem;">Oct to Mar</span>
+          <h3 class="feature-title" style="margin-bottom: 0.5rem;">Golden Winter & Coastal</h3>
+          <p class="feature-desc" style="margin-bottom: 0.75rem;">Ideal for Goa's sun, Rajasthan's desert palaces, Kerala backwaters, and Dubai safaris with pleasant, crisp sunshine.</p>
+          <div style="font-size: 0.85rem; font-weight: 600; color: #0284c7;"><i class="fa-solid fa-check"></i> Goa, Kerala, Rajasthan, Dubai</div>
+        </div>
+
+        <div class="feature-card" style="text-align: left;">
+          <span class="badge badge-orange" style="margin-bottom: 0.75rem;">Apr to Jun</span>
+          <h3 class="feature-title" style="margin-bottom: 0.5rem;">Summer Himalayan Retreats</h3>
+          <p class="feature-desc" style="margin-bottom: 0.75rem;">Escape summer heat with refreshing breezes in Kashmir valleys, Manali pine woods, and Swiss Alps mountain trails.</p>
+          <div style="font-size: 0.85rem; font-weight: 600; color: #ff6b35;"><i class="fa-solid fa-check"></i> Kashmir, Himachal, Switzerland, Bali</div>
+        </div>
+
+        <div class="feature-card" style="text-align: left;">
+          <span class="badge badge-navy" style="margin-bottom: 0.75rem;">May to Sep</span>
+          <h3 class="feature-title" style="margin-bottom: 0.5rem;">High Altitude Expeditions</h3>
+          <p class="feature-desc" style="margin-bottom: 0.75rem;">The only window when high passes like Khardung La open for road expeditions to Ladakh and Pangong Tso.</p>
+          <div style="font-size: 0.85rem; font-weight: 600; color: #0f2444;"><i class="fa-solid fa-check"></i> Ladakh, Spiti Valley, Zanskar</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container footer-grid">
+      <div>
+        <a href="index.html" class="logo footer-logo">
+          <div class="logo-icon"><i class="fa-solid fa-plane-departure"></i></div>
+          <span style="color:#fff;">Trip</span><span class="text-orange">Ease</span>
+        </a>
+        <p class="footer-about">
+          TripEase is India's premier holiday booking platform offering curated vacations, customizable packages, and transparent pricing in Indian Rupees.
+        </p>
+        <div class="footer-socials">
+          <a href="#" class="social-btn"><i class="fa-brands fa-facebook-f"></i></a>
+          <a href="#" class="social-btn"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#" class="social-btn"><i class="fa-brands fa-x-twitter"></i></a>
+        </div>
+      </div>
+
+      <div>
+        <h4 class="footer-heading">Quick Links</h4>
+        <ul class="footer-links">
+          <li><a href="index.html"><i class="fa-solid fa-chevron-right"></i> Home</a></li>
+          <li><a href="destinations.html"><i class="fa-solid fa-chevron-right"></i> Destinations</a></li>
+          <li><a href="packages.html"><i class="fa-solid fa-chevron-right"></i> Tour Packages</a></li>
+          <li><a href="my-trips.html"><i class="fa-solid fa-chevron-right"></i> My Bookings</a></li>
+          <li><a href="admin.html"><i class="fa-solid fa-chevron-right"></i> Admin Dashboard</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="footer-heading">Top Regions</h4>
+        <ul class="footer-links">
+          <li><a href="packages.html?destination=Kashmir"><i class="fa-solid fa-chevron-right"></i> Kashmir Valley</a></li>
+          <li><a href="packages.html?destination=Kerala"><i class="fa-solid fa-chevron-right"></i> Kerala Backwaters</a></li>
+          <li><a href="packages.html?destination=Ladakh"><i class="fa-solid fa-chevron-right"></i> Ladakh Passes</a></li>
+          <li><a href="packages.html?destination=Goa"><i class="fa-solid fa-chevron-right"></i> Goa Coastline</a></li>
+          <li><a href="packages.html?destination=Bali"><i class="fa-solid fa-chevron-right"></i> Bali Tropical Villas</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="footer-heading">Need Assistance?</h4>
+        <div class="footer-contact-list">
+          <div class="contact-item">
+            <i class="fa-solid fa-phone"></i>
+            <span>Toll Free: 1800-209-8747</span>
+          </div>
+          <div class="contact-item">
+            <i class="fa-solid fa-envelope"></i>
+            <span>support@tripease.com</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="container">
+        <div>&copy; 2026 TripEase Travel Technologies Pvt. Ltd. All rights reserved.</div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/script.js"></script>
+</body>
+</html>

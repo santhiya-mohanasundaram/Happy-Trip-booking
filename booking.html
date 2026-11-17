@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Complete Your Booking - TripEase</title>
+  <meta name="description" content="Secure your holiday reservation with verified stays, flexible cancellation and instant E-Vouchers.">
+  
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✈️</text></svg>">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <div class="container">
+      <div class="topbar-info">
+        <span><i class="fa-solid fa-lock text-success"></i> 256-Bit SSL Encrypted Secure Checkout</span>
+        <span><i class="fa-solid fa-phone text-orange"></i> Urgent Booking Helpline: <strong>1800-209-8747</strong></span>
+      </div>
+      <div class="topbar-actions">
+        <span><i class="fa-solid fa-indian-rupee-sign text-orange"></i> INR (₹) All Taxes Included</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- NAVIGATION BAR -->
+  <nav class="navbar">
+    <div class="container nav-container">
+      <a href="index.html" class="logo">
+        <div class="logo-icon"><i class="fa-solid fa-plane-departure"></i></div>
+        Trip<span>Ease</span>
+      </a>
+
+      <ul class="nav-menu" id="navMenu">
+        <li><a href="index.html" class="nav-link">Home</a></li>
+        <li><a href="destinations.html" class="nav-link">Destinations</a></li>
+        <li><a href="packages.html" class="nav-link">Tour Packages</a></li>
+        <li><a href="my-trips.html" class="nav-link">My Trips</a></li>
+        <li><a href="admin.html" class="nav-link">Admin UI</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <a href="packages.html" class="nav-wishlist-btn" title="Saved Wishlist">
+          <i class="fa-regular fa-heart"></i>
+          <span class="nav-badge-count" id="navWishlistCount">0</span>
+        </a>
+        <div id="navUserSection" style="display: flex; align-items: center; gap: 0.75rem;"></div>
+        <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle navigation">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- BOOKING SECTION -->
+  <section class="section" style="padding-top: 2.5rem;">
+    <div class="container">
+      
+      <!-- Breadcrumbs -->
+      <div class="breadcrumbs" style="justify-content: flex-start; margin-bottom: 2rem;">
+        <a href="index.html">Home</a>
+        <i class="fa-solid fa-chevron-right" style="font-size: 0.7rem;"></i>
+        <a href="packages.html">Packages</a>
+        <i class="fa-solid fa-chevron-right" style="font-size: 0.7rem;"></i>
+        <span class="current">Checkout & Confirmation</span>
+      </div>
+
+      <!-- Step Navigation Indicator -->
+      <div class="booking-steps-nav">
+        <div class="step-indicator active" id="stepIndicator1">
+          <div class="step-num">1</div>
+          <span class="step-label">Traveler Details</span>
+        </div>
+        <div class="step-indicator" id="stepIndicator2">
+          <div class="step-num">2</div>
+          <span class="step-label">Add-ons & Perks</span>
+        </div>
+        <div class="step-indicator" id="stepIndicator3">
+          <div class="step-num">3</div>
+          <span class="step-label">Payment & Confirmation</span>
+        </div>
+      </div>
+
+      <!-- Two-Column Checkout Layout -->
+      <div class="details-layout" style="grid-template-columns: 1fr 380px;">
+        
+        <!-- LEFT: MULTI-STEP FORM -->
+        <div>
+          <form id="bookingMasterForm">
+            
+            <!-- STEP 1: TRAVELER DETAILS -->
+            <div id="stepContent1" class="booking-step-content booking-form-box">
+              <h2 style="font-size: 1.45rem; color: #0f2444; margin-bottom: 0.4rem; display: flex; align-items: center; gap: 0.6rem;">
+                <i class="fa-solid fa-user-pen text-sky"></i> Lead Traveler & Schedule
+              </h2>
+              <p style="font-size: 0.9rem; color: #64748b; margin-bottom: 2rem;">
+                Enter contact details where your booking voucher and flight pickup instructions will be dispatched.
+              </p>
+
+              <div class="form-grid-2">
+                <div class="form-group">
+                  <label class="form-label" for="leadName">Primary Passenger Full Name *</label>
+                  <input type="text" id="leadName" class="form-control" placeholder="e.g. Arjun Sharma" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="leadEmail">Email Address (For E-Ticket) *</label>
+                  <input type="email" id="leadEmail" class="form-control" placeholder="arjun@example.com" required>
+                </div>
+              </div>
+
+              <div class="form-grid-2">
+                <div class="form-group">
+                  <label class="form-label" for="leadPhone">Contact Phone Number *</label>
+                  <input type="tel" id="leadPhone" class="form-control" placeholder="+91 98765 43210" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="departureCity">Departure City / Hometown</label>
+                  <input type="text" id="departureCity" class="form-control" placeholder="e.g. Delhi, Mumbai, Bengaluru">
+                </div>
+              </div>
+
+              <div class="form-grid-2">
+                <div class="form-group">
+                  <label class="form-label" for="bookTravelDate">Travel Start Date *</label>
+                  <input type="date" id="bookTravelDate" class="form-control" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="bookGuestsCount">Total Travelers (Adults + Kids) *</label>
+                  <input type="number" id="bookGuestsCount" class="form-control" min="1" max="15" value="2" required>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="specialRequests">Special Requests / Preferences</label>
+                <textarea id="specialRequests" class="form-control" rows="2" placeholder="e.g. Jain / Pure Veg meals, Honeymoon cake, ground floor room..."></textarea>
+              </div>
+            </div>
+
+            <!-- STEP 2: ADD-ONS & CUSTOMIZATION -->
+            <div id="stepContent2" class="booking-step-content booking-form-box" style="display: none;">
+              <h2 style="font-size: 1.45rem; color: #0f2444; margin-bottom: 0.4rem; display: flex; align-items: center; gap: 0.6rem;">
+                <i class="fa-solid fa-sparkles text-orange"></i> Optional Holiday Add-ons
+              </h2>
+              <p style="font-size: 0.9rem; color: #64748b; margin-bottom: 1.5rem;">
+                Enhance your trip with exclusive negotiated upgrades.
+              </p>
+
+              <div class="addons-list">
+                <!-- Add-on 1 -->
+                <label class="addon-card">
+                  <div class="addon-info">
+                    <input type="checkbox" class="addon-checkbox" data-price="4500" style="width: 20px; height: 20px; accent-color: #ff6b35;">
+                    <div>
+                      <strong style="display: block; font-size: 1rem; color: #0f172a;">Roundtrip Domestic Flight Assistance</strong>
+                      <span style="font-size: 0.82rem; color: #64748b;">Guaranteed prime flight timings with 15kg checked luggage included.</span>
+                    </div>
+                  </div>
+                  <div class="addon-price">+₹4,500 / person</div>
+                </label>
+
+                <!-- Add-on 2 -->
+                <label class="addon-card">
+                  <div class="addon-info">
+                    <input type="checkbox" class="addon-checkbox" data-price="3500" style="width: 20px; height: 20px; accent-color: #ff6b35;">
+                    <div>
+                      <strong style="display: block; font-size: 1rem; color: #0f172a;">5-Star Luxury Resort & Suite Upgrade</strong>
+                      <span style="font-size: 0.82rem; color: #64748b;">Upgrade from 4★ to 5★ premium brand property with valley view balcony.</span>
+                    </div>
+                  </div>
+                  <div class="addon-price">+₹3,500 / person</div>
+                </label>
+
+                <!-- Add-on 3 -->
+                <label class="addon-card">
+                  <div class="addon-info">
+                    <input type="checkbox" class="addon-checkbox" data-price="2200" style="width: 20px; height: 20px; accent-color: #ff6b35;">
+                    <div>
+                      <strong style="display: block; font-size: 1rem; color: #0f172a;">All-Inclusive Gourmet Dining Plan</strong>
+                      <span style="font-size: 0.82rem; color: #64748b;">Includes 3 full meals daily (Breakfast, Lunch & Multi-Course Dinner).</span>
+                    </div>
+                  </div>
+                  <div class="addon-price">+₹2,200 / person</div>
+                </label>
+
+                <!-- Add-on 4 -->
+                <label class="addon-card">
+                  <div class="addon-info">
+                    <input type="checkbox" class="addon-checkbox" data-price="499" style="width: 20px; height: 20px; accent-color: #ff6b35;" checked>
+                    <div>
+                      <strong style="display: block; font-size: 1rem; color: #0f172a;">Comprehensive Travel & Medical Insurance</strong>
+                      <span style="font-size: 0.82rem; color: #64748b;">Covers medical emergency, baggage loss, and weather flight delays.</span>
+                    </div>
+                  </div>
+                  <div class="addon-price">+₹499 / person</div>
+                </label>
+              </div>
+            </div>
+
+            <!-- STEP 3: PAYMENT METHOD & REVIEW -->
+            <div id="stepContent3" class="booking-step-content booking-form-box" style="display: none;">
+              <h2 style="font-size: 1.45rem; color: #0f2444; margin-bottom: 0.4rem; display: flex; align-items: center; gap: 0.6rem;">
+                <i class="fa-solid fa-credit-card text-success"></i> Payment Method
+              </h2>
+              <p style="font-size: 0.9rem; color: #64748b; margin-bottom: 1.5rem;">
+                Choose your preferred payment method. This is a secure frontend checkout simulation.
+              </p>
+
+              <!-- Payment Method Selection Tabs -->
+              <div class="payment-methods-grid">
+                <div class="payment-tab active" data-method="upi">
+                  <i class="fa-solid fa-mobile-screen-button"></i>
+                  <span>UPI / QR (GPay / PhonePe)</span>
+                </div>
+                <div class="payment-tab" data-method="card">
+                  <i class="fa-solid fa-credit-card"></i>
+                  <span>Credit / Debit Card</span>
+                </div>
+                <div class="payment-tab" data-method="netbank">
+                  <i class="fa-solid fa-building-columns"></i>
+                  <span>Net Banking / NEFT</span>
+                </div>
+              </div>
+
+              <!-- Payment Method 1: UPI -->
+              <div id="pay-group-upi" class="payment-fields-group">
+                <div class="form-group">
+                  <label class="form-label">Virtual Payment Address (VPA / UPI ID)</label>
+                  <input type="text" class="form-control" placeholder="username@okhdfcbank or 9876543210@paytm" value="arjun.travel@okaxis">
+                </div>
+                <div style="background: #ecfdf5; border: 1px solid rgba(16,185,129,0.3); border-radius: 8px; padding: 1rem; font-size: 0.88rem; color: #065f46;">
+                  <i class="fa-solid fa-qrcode text-success"></i> You will receive a collect request notification on your UPI app to authorize this booking.
+                </div>
+              </div>
+
+              <!-- Payment Method 2: Card -->
+              <div id="pay-group-card" class="payment-fields-group" style="display: none;">
+                <div class="form-group">
+                  <label class="form-label">Card Number</label>
+                  <input type="text" class="form-control" placeholder="4111 2222 3333 4444" value="4532 •••• •••• 8912">
+                </div>
+                <div class="form-grid-2">
+                  <div class="form-group">
+                    <label class="form-label">Expiry Date</label>
+                    <input type="text" class="form-control" placeholder="MM/YY" value="08/29">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">CVV</label>
+                    <input type="password" class="form-control" placeholder="123" maxlength="4" value="892">
+                  </div>
+                </div>
+              </div>
+
+              <!-- Payment Method 3: Net Banking -->
+              <div id="pay-group-netbank" class="payment-fields-group" style="display: none;">
+                <div class="form-group">
+                  <label class="form-label">Select Your Bank</label>
+                  <select class="form-control">
+                    <option>HDFC Bank</option>
+                    <option>State Bank of India (SBI)</option>
+                    <option>ICICI Bank</option>
+                    <option>Axis Bank</option>
+                    <option>Kotak Mahindra Bank</option>
+                  </select>
+                </div>
+              </div>
+
+              <div style="margin-top: 1.5rem; font-size: 0.85rem; color: #64748b;">
+                <i class="fa-solid fa-shield-halved text-success"></i> Payments are processed via PCI-DSS Level 1 certified mock payment gateway.
+              </div>
+            </div>
+
+            <!-- Form Navigation Buttons -->
+            <div style="display: flex; justify-content: space-between; margin-top: 1.5rem;">
+              <button type="button" id="prevStepBtn" class="btn btn-outline-navy" style="display: none;">
+                <i class="fa-solid fa-arrow-left"></i> Previous Step
+              </button>
+              <div style="margin-left: auto;">
+                <button type="button" id="nextStepBtn" class="btn btn-sky btn-lg">
+                  Next Step <i class="fa-solid fa-arrow-right"></i>
+                </button>
+                <button type="submit" id="confirmBookingBtn" class="btn btn-primary btn-lg" style="display: none;">
+                  <i class="fa-solid fa-lock"></i> Confirm & Pay Now
+                </button>
+              </div>
+            </div>
+
+          </form>
+        </div>
+
+        <!-- RIGHT: LIVE SUMMARY CARD -->
+        <aside>
+          <div class="sticky-booking-card" style="box-shadow: var(--shadow-lg);">
+            
+            <div style="display: flex; gap: 1rem; margin-bottom: 1.25rem;">
+              <img id="summaryPkgImg" src="https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&w=400&q=80" 
+                   alt="Package Preview" style="width: 80px; height: 80px; object-fit: cover; border-radius: 10px;">
+              <div>
+                <span id="summaryPkgDest" class="text-sky" style="font-size: 0.78rem; font-weight: 700; text-transform: uppercase;">Kashmir, India</span>
+                <h4 id="summaryPkgTitle" style="font-size: 1rem; color: #0f172a; line-height: 1.3; margin: 0.2rem 0;">Mesmerizing Kashmir Paradise</h4>
+                <span id="summaryPkgDuration" style="font-size: 0.8rem; color: #64748b;">5 Nights / 6 Days</span>
+              </div>
+            </div>
+
+            <!-- Coupon Code Box -->
+            <div style="background: var(--bg-subtle); padding: 1rem; border-radius: var(--radius-md); margin-bottom: 1.25rem;">
+              <label for="couponInput" style="display: block; font-size: 0.78rem; font-weight: 700; color: #475569; margin-bottom: 0.4rem;">
+                <i class="fa-solid fa-tag text-orange"></i> HAVE A COUPON CODE?
+              </label>
+              <div style="display: flex; gap: 0.5rem;">
+                <input type="text" id="couponInput" placeholder="Try TRIPEASE2024" style="flex: 1; padding: 0.5rem 0.75rem; border-radius: 6px; border: 1.5px solid #cbd5e1; font-weight: 700; text-transform: uppercase; font-size: 0.85rem;">
+                <button type="button" id="applyCouponBtn" class="btn btn-navy btn-sm">Apply</button>
+              </div>
+              <div id="couponMessage" style="font-size: 0.78rem; margin-top: 0.4rem;"></div>
+            </div>
+
+            <!-- Pricing Breakdown -->
+            <div class="calc-price-breakdown" style="margin: 0 0 1.25rem;">
+              <div class="calc-row">
+                <span id="summaryGuestsText">2 Adults</span>
+                <span id="summaryBaseRate" style="color: #64748b;">₹24,999 × 2</span>
+              </div>
+              <div class="calc-row">
+                <span>Base Fare:</span>
+                <strong id="summaryBaseTotal">₹49,998</strong>
+              </div>
+              <div class="calc-row">
+                <span>Selected Add-ons:</span>
+                <strong id="summaryAddonsTotal">₹998</strong>
+              </div>
+              <div class="calc-row" id="summaryDiscountRow" style="display: none; color: #10b981;">
+                <span>Coupon Savings:</span>
+                <strong id="summaryDiscountAmount">-₹0</strong>
+              </div>
+              <div class="calc-row">
+                <span>GST (5%):</span>
+                <strong id="summaryGst">₹2,549</strong>
+              </div>
+              <div class="calc-row calc-total">
+                <span>Grand Total:</span>
+                <span id="summaryGrandTotal" class="text-orange" style="font-size: 1.35rem;">₹53,545</span>
+              </div>
+            </div>
+
+            <div style="font-size: 0.8rem; color: #64748b; line-height: 1.5;">
+              <i class="fa-solid fa-lock text-sky"></i> Free cancellation available up to 7 days before departure. Instant digital booking voucher provided upon confirmation.
+            </div>
+
+          </div>
+        </aside>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CONFIRMATION MODAL -->
+  <div class="modal-backdrop" id="bookingSuccessModal">
+    <div class="modal-box" style="text-align: center;">
+      <div class="modal-body" style="padding: 3rem 2rem;">
+        <div style="width: 80px; height: 80px; border-radius: 50%; background: #ecfdf5; color: #10b981; display: flex; align-items: center; justify-content: center; font-size: 2.75rem; margin: 0 auto 1.5rem; animation: pulse 1s infinite alternate;">
+          <i class="fa-solid fa-check"></i>
+        </div>
+
+        <span class="badge badge-success" style="margin-bottom: 0.75rem; font-size: 0.85rem;">Booking Confirmed!</span>
+        <h2 style="font-size: 1.85rem; color: #0f2444; margin-bottom: 0.5rem;">Pack Your Bags!</h2>
+        <p style="color: #64748b; font-size: 0.95rem; margin-bottom: 1.5rem;">
+          Your holiday booking has been placed and confirmed with the resort. A confirmation email with your digital itinerary has been sent.
+        </p>
+
+        <div style="background: #f8fafc; border: 1.5px dashed #cbd5e1; border-radius: 12px; padding: 1.25rem; margin-bottom: 2rem; text-align: left;">
+          <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+            <span style="font-size: 0.85rem; color: #64748b;">Booking Reference:</span>
+            <strong id="confirmedBookingId" style="color: #0284c7; font-family: monospace; font-size: 1rem;">TE-2026-8941</strong>
+          </div>
+          <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+            <span style="font-size: 0.85rem; color: #64748b;">Package:</span>
+            <strong id="confirmedPkgTitle" style="color: #0f172a; font-size: 0.9rem;">Mesmerizing Kashmir Paradise</strong>
+          </div>
+          <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+            <span style="font-size: 0.85rem; color: #64748b;">Travel Date:</span>
+            <strong id="confirmedTravelDate" style="color: #0f172a; font-size: 0.9rem;">2026-11-28</strong>
+          </div>
+          <div style="display: flex; justify-content: space-between;">
+            <span style="font-size: 0.85rem; color: #64748b;">Amount Paid:</span>
+            <strong id="confirmedAmount" style="color: #ff6b35; font-size: 1.05rem;">₹53,545</strong>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 1rem; justify-content: center;">
+          <a href="my-trips.html" class="btn btn-primary btn-lg">
+            <i class="fa-solid fa-suitcase-rolling"></i> View My Trips
+          </a>
+          <a href="index.html" class="btn btn-outline-navy btn-lg">
+            Back to Home
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container footer-bottom" style="border: none; padding: 2rem 0;">
+      <div>&copy; 2026 TripEase Travel Technologies Pvt. Ltd. All rights reserved.</div>
+      <div>Helpline: <strong>1800-209-8747</strong> (24/7 Support)</div>
+    </div>
+  </footer>
+
+  <script src="js/script.js"></script>
+</body>
+</html>
